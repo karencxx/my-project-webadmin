@@ -1,0 +1,76 @@
+// 变量
+@primary-color: #409EFF;
+@success-color: #67C23A;
+@warning-color: #E6A23C;
+@danger-color: #F56C6C;
+@info-color: #909399;
+
+// 布局
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// 间距
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+// 卡片样式
+.card {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+}
+
+// 按钮样式
+.btn-primary {
+  color: #fff;
+  background-color: @primary-color;
+  border-color: @primary-color;
+  
+  &:hover, &:focus {
+    opacity: 0.9;
+  }
+}
+
+// 文本样式
+.text-primary {
+  color: @primary-color;
+}
+
+.text-success {
+  color: @success-color;
+}
+
+.text-warning {
+  color: @warning-color;
+}
+
+.text-danger {
+  color: @danger-color;
+}
+
+.text-info {
+  color: @info-color;
+}

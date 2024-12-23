@@ -1,0 +1,283 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "寺庙管理系统API文档",
+    "version": "1.0.0",
+    "description": "寺庙管理系统后台接口文档"
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "用户登录",
+        "description": "用户登录接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "description": "用户名" },
+                  "password": { "type": "string", "description": "密码" }
+                },
+                "required": ["username", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "number", "description": "状态码" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": { "type": "string", "description": "访问令牌" },
+                        "userInfo": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "number", "description": "用户ID" },
+                            "username": { "type": "string", "description": "用户名" },
+                            "name": { "type": "string", "description": "姓名" },
+                            "role": { "type": "string", "description": "角色" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/info": {
+      "post": {
+        "summary": "获取用户信息",
+        "description": "获取当前登录用户信息",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bearer token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "number", "description": "状态码" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userInfo": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "number", "description": "用户ID" },
+                            "username": { "type": "string", "description": "用户名" },
+                            "name": { "type": "string", "description": "姓名" },
+                            "role": { "type": "string", "description": "角色" },
+                            "permissions": {
+                              "type": "array",
+                              "items": { "type": "string" },
+                              "description": "权限列表"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/content/temple/list": {
+      "post": {
+        "summary": "获取寺庙介绍列表",
+        "description": "获取寺庙介绍列表",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bearer token"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "number" },
+            "description": "页码"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "number" },
+            "description": "每页条数"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "标题"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number" },
+            "description": "状态"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "number", "description": "状态码" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "number", "description": "总记录数" },
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "number", "description": "ID" },
+                              "title": { "type": "string", "description": "标题" },
+                              "content": { "type": "string", "description": "内容" },
+                              "coverUrl": { "type": "string", "description": "封面图" },
+                              "author": { "type": "string", "description": "作者" },
+                              "status": { "type": "number", "description": "状态" },
+                              "createTime": { "type": "string", "description": "创建时间" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/order/blessing/upload-video": {
+      "post": {
+        "summary": "上传祈福视频",
+        "description": "上传祈福视频",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "orderId": { "type": "number", "description": "订单ID" },
+                  "videoUrl": { "type": "string", "description": "视频URL" }
+                },
+                "required": ["orderId", "videoUrl"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/setting/config": {
+      "post": {
+        "summary": "获取系统配置",
+        "description": "获取系统配置信息",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bearer token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "number", "description": "状态码" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "更新系统配置",
+        "description": "更新系统配置",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bearer token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "siteName": { "type": "string", "description": "站点名称" },
+                  "logo": { "type": "string", "description": "Logo URL" },
+                  "paymentConfig": {
+                    "type": "object",
+                    "properties": {
+                      "provider": { "type": "string", "description": "支付提供商" },
+                      "appId": { "type": "string", "description": "应用ID" },
+                      "appSecret": { "type": "string", "description": "应用密钥" }
+                    }
+                  }
+                },
+                "required": ["siteName", "logo", "paymentConfig"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
