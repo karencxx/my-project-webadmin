@@ -1,11 +1,15 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@babel/core': ^7.12.0
+  '@babel/plugin-proposal-optional-chaining': ^7.21.0
+  '@babel/runtime': ^7.12.0
   '@vue/cli-plugin-babel': ~4.5.0
   '@vue/cli-plugin-eslint': ~4.5.0
   '@vue/cli-service': ~4.5.0
   axios: ^0.27.2
   babel-eslint: ^10.1.0
+  core-js: ^3.6.5
   element-ui: ^2.15.13
   eslint: ^6.7.2
   eslint-plugin-vue: ^6.2.2
@@ -17,13 +21,17 @@ specifiers:
   vuex: ^3.6.2
 
 dependencies:
+  '@babel/runtime': 7.26.0
   axios: 0.27.2
+  core-js: 3.39.0
   element-ui: 2.15.14_vue@2.7.16
   vue: 2.7.16
   vue-router: 3.6.5
   vuex: 3.6.2_vue@2.7.16
 
 devDependencies:
+  '@babel/core': 7.26.0
+  '@babel/plugin-proposal-optional-chaining': 7.21.0_@babel+core@7.26.0
   '@vue/cli-plugin-babel': 4.5.19_0d409721c545b682d55e7fdef30eca2e
   '@vue/cli-plugin-eslint': 4.5.19_291eed2a4b15311c68aabdde8b2cf70f
   '@vue/cli-service': 4.5.19_bd1d1b72d2632a1809849a6617d28c0a
@@ -375,6 +383,21 @@ packages:
       - supports-color
     dev: true
 
+  /@babel/plugin-proposal-optional-chaining/7.21.0_@babel+core@7.26.0:
+    resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
+    engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.26.0
+      '@babel/helper-plugin-utils': 7.25.9
+      '@babel/helper-skip-transparent-expression-wrappers': 7.25.9
+      '@babel/plugin-syntax-optional-chaining': 7.8.3_@babel+core@7.26.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/plugin-proposal-private-property-in-object/7.21.0-placeholder-for-preset-env.2_@babel+core@7.26.0:
     resolution: {integrity: sha512-SOSkfJDddaM7mak6cPEpswyTRnuRltl429hMraQEglW+OkovnCzsiszTmsrlY//qLFjCpQDFRvjdm2wA5pPm9w==}
     engines: {node: '>=6.9.0'}
@@ -426,6 +449,15 @@ packages:
   /@babel/plugin-syntax-jsx/7.25.9_@babel+core@7.26.0:
     resolution: {integrity: sha512-ld6oezHQMZsZfp6pWtbjaNDF2tiiCYYDqQszHt5VV437lewP9aSi2Of99CK0D0XB21k7FLgnLcmQKyKzynfeAA==}
     engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.26.0
+      '@babel/helper-plugin-utils': 7.25.9
+    dev: true
+
+  /@babel/plugin-syntax-optional-chaining/7.8.3_@babel+core@7.26.0:
+    resolution: {integrity: sha512-KoK9ErH1MBlCPxV0VANkXW2/dw4vlbGDrFgz8bmUsBGYkFRcbRwMh6cIJubdPrkxRwuGdtCk0v/wPTKbQgBjkg==}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1126,7 +1158,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.1
-    dev: true
 
   /@babel/template/7.25.9:
     resolution: {integrity: sha512-9DGttpmPvIxBb/2uwpVo3dqJ+O6RooAFOS+lB+xDqoE2PVCE8nfoHMdZLpfCQRLwvohzXISPZcgxt80xLfsuwg==}
@@ -3190,7 +3221,6 @@ packages:
   /core-js/3.39.0:
     resolution: {integrity: sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==}
     requiresBuild: true
-    dev: true
 
   /core-util-is/1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -7516,7 +7546,6 @@ packages:
 
   /regenerator-runtime/0.14.1:
     resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
-    dev: true
 
   /regenerator-transform/0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}

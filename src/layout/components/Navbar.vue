@@ -25,7 +25,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { doLoginOut } from '@/api/base'
+import { loginOut } from '@/api/base'
 export default {
   name: 'Navbar',
   computed: {
@@ -35,7 +35,7 @@ export default {
     ...mapActions('app', ['toggleSideBar']),
     ...mapActions('user', ['logout']),
     async handleLogout() {
-      await doLoginOut({ userId: '111' })
+      await loginOut({ userId: '111' })
       localStorage.removeItem('userId')
       this.$router.push('/login')
     },
