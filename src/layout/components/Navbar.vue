@@ -1,46 +1,63 @@
 <template>
-  <div class="navbar">
-    <div class="left-menu">
-      <!-- <i 
-        class="el-icon-s-fold toggle-button"
-        @click="toggleSideBar"
-      /> -->
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>{{ genBreadcrumb() }}</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+  <el-menu class="navbar" mode="horizontal">
+    <hamburger 
+      class="hamburger-container" 
+      :toggleClick="toggleSideBar" 
+      :isActive="sidebar.opened"
+    />
+    
+    <breadcrumb />
     
     <div class="right-menu">
-      <el-dropdown trigger="click">
-        <span class="el-dropdown-link">
-          {{ userInfo.name }}<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="handleLogout">退出登录</el-dropdown-item>
+      <el-dropdown class="avatar-container" trigger="click">
+        <div class="avatar-wrapper">
+          <img class="user-avatar" :src="avatar">
+          <span class="user-name">{{ name }}</span>
+          <i class="el-icon-caret-bottom" />
+        </div>
+        <el-dropdown-menu class="user-dropdown" slot="dropdown">
+          <router-link class="inlineBlock" to="/">
+            <el-dropdown-item>
+              首页
+            </el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided>
+            <span @click="handleLogout" style="display:block;">退出登录</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
-  </div>
+  </el-menu>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { loginOut } from '@/api/base'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+
 export default {
   name: 'Navbar',
+  components: {
+    Breadcrumb,
+    Hamburger
+  },
   computed: {
-    ...mapState('user', ['userInfo'])
+    ...mapState('user', ['name']),
+    ...mapGetters([
+      'sidebar',
+      'avatar'
+    ])
   },
   methods: {
     ...mapActions('app', ['toggleSideBar']),
     ...mapActions('user', ['logout']),
     async handleLogout() {
-      await loginOut({ userId: '111' })
-      localStorage.removeItem('userId')
-      this.$router.push('/login')
-    },
-    genBreadcrumb() {
-      return this.$route.meta.title
+      try {
+        await this.logout()
+        this.$router.push('/login')
+      } catch (error) {
+        console.error('Logout failed:', error)
+      }
     }
   }
 }
@@ -48,22 +65,59 @@ export default {
 
 <style lang="less" scoped>
 .navbar {
-  height: 100%;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 0 !important;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
   
-  .toggle-button {
-    font-size: 20px;
-    cursor: pointer;
+  .hamburger-container {
+    line-height: 58px;
+    height: 50px;
+    float: left;
+    padding: 0 10px;
   }
   
   .right-menu {
-    .el-dropdown-link {
-      cursor: pointer;
-      color: #333;
+    float: right;
+    height: 100%;
+    
+    .avatar-container {
+      height: 50px;
+      display: inline-block;
+      margin-right: 35px;
+      
+      .avatar-wrapper {
+        cursor: pointer;
+        margin-top: 5px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          margin-right: 8px;
+        }
+        
+        .user-name {
+          color: #333;
+          font-size: 14px;
+        }
+        
+        .el-icon-caret-bottom {
+          margin-left: 8px;
+          font-size: 12px;
+        }
+      }
     }
+  }
+}
+
+.user-dropdown {
+  .inlineBlock {
+    display: inline-block;
   }
 }
 </style> 

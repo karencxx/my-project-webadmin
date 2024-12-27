@@ -1,6 +1,93 @@
 import page from '@/views/page'
 
 export default [
+  // 商品管理
+  {
+    path: '/pms',
+    name: 'Pms',
+    component: page,
+    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    children: [
+      {
+        path: 'product',
+        name: 'Product',
+        meta: { title: '商品列表' },
+        component: () => import('@/views/pms/product/index')
+      },
+      {
+        path: 'addProduct',
+        name: 'AddProduct',
+        meta: { title: '添加商品' },
+        component: () => import('@/views/pms/product/add')
+      },
+      {
+        path: 'updateProduct',
+        name: 'UpdateProduct',
+        meta: { title: '修改商品' },
+        component: () => import('@/views/pms/product/update')
+      },
+      {
+        path: 'brand',
+        name: 'Brand',
+        meta: { title: '品牌管理' },
+        component: () => import('@/views/pms/brand/index')
+      },
+      {
+        path: 'addBrand',
+        name: 'AddBrand',
+        meta: { title: '添加品牌' },
+        component: () => import('@/views/pms/brand/add')
+      },
+      {
+        path: 'updateBrand',
+        name: 'UpdateBrand',
+        meta: { title: '编辑品牌' },
+        component: () => import('@/views/pms/brand/update')
+      },
+      {
+        path: 'productAttr',
+        name: 'ProductAttr',
+        meta: { title: '商品属性分类' },
+        component: () => import('@/views/pms/productAttr/index')
+      },
+      {
+        path: 'productAttrList',
+        name: 'ProductAttrList',
+        meta: { title: '商品属性列表' },
+        component: () => import('@/views/pms/productAttr/productAttrList')
+      },
+      {
+        path: 'addProductAttr',
+        name: 'AddProductAttr',
+        meta: { title: '添加商品属性' },
+        component: () => import('@/views/pms/productAttr/addProductAttr')
+      },
+      {
+        path: 'updateProductAttr',
+        name: 'UpdateProductAttr',
+        meta: { title: '修改商品属性' },
+        component: () => import('@/views/pms/productAttr/updateProductAttr')
+      },
+      {
+        path: 'productCate',
+        name: 'ProductCate',
+        meta: { title: '商品分类' },
+        component: () => import('@/views/pms/productCate/index')
+      },
+      {
+        path: 'addProductCate',
+        name: 'AddProductCate',
+        meta: { title: '添加商品分类' },
+        component: () => import('@/views/pms/productCate/add')
+      },
+      {
+        path: 'updateProductCate',
+        name: 'UpdateProductCate',
+        meta: { title: '修改商品分类' },
+        component: () => import('@/views/pms/productCate/update')
+      }
+    ]
+  },
   // 内容管理
   {
     path: '/content',
