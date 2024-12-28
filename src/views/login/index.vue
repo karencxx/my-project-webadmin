@@ -149,10 +149,13 @@ export default {
             .then(() => {
               this.loading = false
               this.saveLoginInfo()
-              this.$router.push({ path: '/' })
+              localStorage.setItem('userId', 'true')
+              this.$router.push('/dashboard')
             })
-            .catch(() => {
+            .catch(error => {
               this.loading = false
+              console.error('登录失败:', error)
+              this.$message.error(error.message || '登录失败')
             })
         }
       })
