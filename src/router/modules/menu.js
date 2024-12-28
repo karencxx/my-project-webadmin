@@ -109,6 +109,21 @@ export default [
       }
     ]
   },
+  // Banner管理
+  {
+    path: '/banner',
+    name: 'Banner',
+    component: page,
+    meta: { title: 'Banner管理', icon: 'el-icon-picture' },
+    children: [
+      {
+        path: 'list',
+        name: 'BannerList',
+        meta: { title: 'Banner列表' },
+        component: () => import('@/views/banner/list')
+      }
+    ]
+  },
   // 祈福商品管理
   {
     path: '/blessing',
@@ -202,6 +217,21 @@ export default [
         name: 'UserAddress',
         meta: { title: '收货地址管理' },
         component: () => import('@/views/user/address/index'),
+      }
+    ]
+  },
+  // 员工管理
+  {
+    path: '/employee',
+    name: 'Employee',
+    component: page,
+    meta: { title: '员工管理', icon: 'el-icon-s-custom' },
+    children: [
+      {
+        path: 'list',
+        name: 'EmployeeList',
+        meta: { title: '员工列表' },
+        component: () => import('@/views/employee/list')
       }
     ]
   },

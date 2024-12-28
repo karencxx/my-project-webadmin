@@ -36,6 +36,7 @@ const user = {
             const { data } = response
             commit('SET_TOKEN', data.token)
             setToken(data.token)
+            localStorage.setItem('userId', data.token)
             resolve()
           })
           .catch(error => {
@@ -73,6 +74,7 @@ const user = {
             commit('SET_TOKEN', '')
             commit('SET_ROLES', [])
             removeToken()
+            localStorage.removeItem('userId')
             resolve()
           })
           .catch(error => {

@@ -35,5 +35,14 @@ module.exports = {
       }
     }
   },
-  transpileDependencies: ['element-ui']
+  transpileDependencies: ['element-ui'],
+  pwa: {
+    iconPaths: {
+      favicon32: false,
+      favicon16: false,
+      appleTouchIcon: false,
+      maskIcon: false,
+      msTileImage: false
+    }
+  }
 } 

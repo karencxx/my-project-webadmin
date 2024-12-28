@@ -99,7 +99,6 @@
 import { isvalidUsername } from '@/utils/validate'
 import { setSupport, getSupport, setCookie, getCookie } from '@/utils/support'
 import login_center_bg from '@/assets/images/login_center_bg.png'
-import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -137,25 +136,28 @@ export default {
     this.initLoginForm()
   },
   methods: {
-    ...mapActions('user', ['login']),
     showPwd() {
       this.pwdType = this.pwdType === 'password' ? '' : 'password'
     },
     handleLogin() {
+      debugger
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.login(this.loginForm)
+          this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
               this.loading = false
               this.saveLoginInfo()
-              localStorage.setItem('userId', 'true')
-              this.$router.push('/dashboard')
+              const redirect = this.$route.query.redirect
+              if (redirect) {
+                this.$router.push({ path: redirect || '/dashboard' })
+              } else {
+                this.$router.push({ path: '/dashboard' })
+              }
             })
-            .catch(error => {
+            .catch(() => {
               this.loading = false
-              console.error('登录失败:', error)
-              this.$message.error(error.message || '登录失败')
+              this.$message.error('登录失败')
             })
         }
       })
