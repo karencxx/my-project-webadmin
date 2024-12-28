@@ -198,10 +198,12 @@ export default {
             type: 'success',
             message: '修改成功!'
           })
-          row.status = !row.status
+          this.getList()
         })
       }).catch(() => {
-        row.status = !row.status
+        this.$nextTick(() => {
+          row.status = !row.status
+        })
       })
     },
     getList() {

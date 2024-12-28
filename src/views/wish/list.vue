@@ -8,21 +8,15 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="员工姓名：">
-            <el-input v-model="listQuery.name" class="input-width" placeholder="员工姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="所属组织：">
-            <el-select v-model="listQuery.organization" placeholder="请选择" clearable class="input-width">
+          <el-form-item label="位置：">
+            <el-select v-model="listQuery.position" placeholder="请选择" clearable class="input-width">
               <el-option
-                v-for="item in organizationOptions"
+                v-for="item in positionOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="手机号：">
-            <el-input v-model="listQuery.phone" class="input-width" placeholder="手机号"></el-input>
           </el-form-item>
           <el-form-item label="状态：">
             <el-select v-model="listQuery.status" placeholder="请选择" clearable class="input-width">
@@ -45,69 +39,81 @@
               type="success"
               @click="handleAdd()"
               size="small">
-              添加员工
+              新增
             </el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-card>
-    
+
     <!-- 数据列表 -->
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
     </el-card>
-    
+
     <div class="table-container">
       <el-table
-        ref="employeeTable"
+        ref="wishTable"
         :data="list"
         style="width: 100%"
         v-loading="listLoading"
         border>
-        <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
-        <el-table-column prop="name" label="员工姓名" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-        <el-table-column label="所属组织" align="center">
+        <el-table-column label="图片" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.organization | organizationFilter}}
+            <img :src="scope.row.imageUrl" style="height: 80px">
           </template>
         </el-table-column>
-        <el-table-column prop="role" label="角色" align="center"></el-table-column>
+        <el-table-column label="位置" align="center">
+          <template slot-scope="scope">
+            {{scope.row.position | positionFilter}}
+          </template>
+        </el-table-column>
+        <el-table-column label="是否跳转" align="center">
+          <template slot-scope="scope">
+            {{scope.row.hasLink ? '是' : '否'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="跳转模块" align="center">
+          <template slot-scope="scope">
+            {{scope.row.linkModule | moduleFilter}}
+          </template>
+        </el-table-column>
         <el-table-column prop="creator" label="创建人" align="center"></el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.status ? 'success' : 'danger'">
-              {{scope.row.status ? '正常' : '禁用'}}
-            </el-tag>
+            <el-switch
+              v-model="scope.row.status"
+              @change="handleStatusChange(scope.row)">
+            </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
+        <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
+              type="text"
               @click="handleUpdate(scope.row)">
               编辑
             </el-button>
             <el-button
               size="mini"
-              :type="scope.row.status ? 'danger' : 'success'"
+              type="text"
               @click="handleStatusChange(scope.row)">
-              {{scope.row.status ? '禁用' : '启用'}}
+              {{scope.row.status ? '下架' : '上架'}}
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    
-    <!-- 分页 -->
+
     <div class="pagination-container">
       <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="listQuery.page"
-        :page-sizes="[5,10,15]"
+        :current-page.sync="listQuery.page"
+        :page-sizes="[5, 10, 15]"
         :page-size="listQuery.size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -117,53 +123,55 @@
 </template>
 
 <script>
-import { getEmployeeList, updateEmployeeStatus } from '@/api/employee'
+import { getWishList, updateWishStatus } from '@/api/wish'
 
 export default {
-  name: 'EmployeeList',
+  name: 'WishList',
+  filters: {
+    positionFilter(value) {
+      const map = {
+        0: '首页',
+        1: '法物流通'
+      }
+      return map[value]
+    },
+    moduleFilter(value) {
+      if (!value) return '-'
+      const map = {
+        0: '了解寺庙',
+        1: '禅修活动'
+      }
+      return map[value]
+    }
+  },
   data() {
     return {
       listQuery: {
         page: 1,
         size: 10,
-        name: undefined,
-        organization: undefined,
-        phone: undefined,
+        position: undefined,
         status: undefined
       },
-      organizationOptions: [
-        { label: '流量团队', value: 0 },
-        { label: '管理层', value: 1 }
+      positionOptions: [
+        { label: '首页', value: 0 },
+        { label: '法物流通', value: 1 }
       ],
       statusOptions: [
-        { label: '正常', value: true },
-        { label: '禁用', value: false }
+        { label: '上架', value: true },
+        { label: '下架', value: false }
       ],
       list: [],
       total: 0,
-      listLoading: false,
-      multipleSelection: []
+      listLoading: false
     }
   },
   created() {
     this.getList()
   },
-  filters: {
-    organizationFilter(value) {
-      const map = {
-        0: '流量团队',
-        1: '管理层'
-      }
-      return map[value]
-    }
-  },
   methods: {
     handleSearchList() {
       this.listQuery.page = 1
       this.getList()
-    },
-    handleAdd() {
-      this.$router.push('/employee/add')
     },
     handleSizeChange(val) {
       this.listQuery.size = val
@@ -173,19 +181,22 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
+    handleAdd() {
+      this.$router.push('/wish/add')
+    },
     handleUpdate(row) {
       this.$router.push({
-        path: `/employee/edit/${row.id}`,
-        query: { employee: JSON.stringify(row) }
+        path: `/wish/edit/${row.id}`,
+        query: { wish: JSON.stringify(row) }
       })
     },
     handleStatusChange(row) {
-      this.$confirm(`确认要${row.status ? '禁用' : '启用'}该员工吗?`, '提示', {
+      this.$confirm(`确认要${row.status ? '下架' : '上架'}该许愿祈福吗?`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        updateEmployeeStatus({
+        updateWishStatus({
           id: row.id,
           status: !row.status
         }).then(response => {
@@ -203,10 +214,12 @@ export default {
     },
     getList() {
       this.listLoading = true
-      getEmployeeList(this.listQuery).then(response => {
+      getWishList(this.listQuery).then(response => {
         this.listLoading = false
         this.list = response.data.list
         this.total = response.data.total
+      }).catch(() => {
+        this.listLoading = false
       })
     }
   }

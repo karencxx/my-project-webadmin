@@ -1,10 +1,5 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger 
-      class="hamburger-container" 
-      :toggleClick="toggleSideBar" 
-      :isActive="sidebar.opened"
-    />
     
     <breadcrumb />
     
@@ -33,13 +28,13 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+// import Hamburger from '@/components/Hamburger'
 
 export default {
   name: 'Navbar',
   components: {
     Breadcrumb,
-    Hamburger
+    // Hamburger
   },
   computed: {
     ...mapState('user', ['name']),

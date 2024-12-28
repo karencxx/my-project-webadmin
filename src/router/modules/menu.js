@@ -1,111 +1,33 @@
 import page from '@/views/page'
 
 export default [
-  // 商品管理
+  // 许愿祈福
   {
-    path: '/pms',
-    name: 'Pms',
+    path: '/wish',
+    name: 'Wish',
     component: page,
-    meta: { title: '商品管理', icon: 'el-icon-goods' },
+    meta: { title: '许愿祈福', icon: 'el-icon-magic-stick' },
     children: [
       {
-        path: 'product',
-        name: 'Product',
-        meta: { title: '商品列表' },
-        component: () => import('@/views/pms/product/index')
-      },
-      {
-        path: 'addProduct',
-        name: 'AddProduct',
-        meta: { title: '添加商品' },
-        component: () => import('@/views/pms/product/add')
-      },
-      {
-        path: 'updateProduct',
-        name: 'UpdateProduct',
-        meta: { title: '修改商品' },
-        component: () => import('@/views/pms/product/update')
-      },
-      {
-        path: 'brand',
-        name: 'Brand',
-        meta: { title: '品牌管理' },
-        component: () => import('@/views/pms/brand/index')
-      },
-      {
-        path: 'addBrand',
-        name: 'AddBrand',
-        meta: { title: '添加品牌' },
-        component: () => import('@/views/pms/brand/add')
-      },
-      {
-        path: 'updateBrand',
-        name: 'UpdateBrand',
-        meta: { title: '编辑品牌' },
-        component: () => import('@/views/pms/brand/update')
-      },
-      {
-        path: 'productAttr',
-        name: 'ProductAttr',
-        meta: { title: '商品属性分类' },
-        component: () => import('@/views/pms/productAttr/index')
-      },
-      {
-        path: 'productAttrList',
-        name: 'ProductAttrList',
-        meta: { title: '商品属性列表' },
-        component: () => import('@/views/pms/productAttr/productAttrList')
-      },
-      {
-        path: 'addProductAttr',
-        name: 'AddProductAttr',
-        meta: { title: '添加商品属性' },
-        component: () => import('@/views/pms/productAttr/addProductAttr')
-      },
-      {
-        path: 'updateProductAttr',
-        name: 'UpdateProductAttr',
-        meta: { title: '修改商品属性' },
-        component: () => import('@/views/pms/productAttr/updateProductAttr')
-      },
-      {
-        path: 'productCate',
-        name: 'ProductCate',
-        meta: { title: '商品分类' },
-        component: () => import('@/views/pms/productCate/index')
-      },
-      {
-        path: 'addProductCate',
-        name: 'AddProductCate',
-        meta: { title: '添加商品分类' },
-        component: () => import('@/views/pms/productCate/add')
-      },
-      {
-        path: 'updateProductCate',
-        name: 'UpdateProductCate',
-        meta: { title: '修改商品分类' },
-        component: () => import('@/views/pms/productCate/update')
+        path: 'list',
+        name: 'WishList',
+        meta: { title: '许愿祈福列表' },
+        component: () => import('@/views/wish/list')
       }
     ]
   },
-  // 内容管理
+  // 文章管理
   {
-    path: '/content',
-    name: 'Content',
+    path: '/article',
+    name: 'Article',
     component: page,
-    meta: { title: '内容管理', icon: 'el-icon-document', resource: '/content' },
+    meta: { title: '文章管理', icon: 'el-icon-document' },
     children: [
       {
-        path: 'temple',
-        name: 'Temple',
-        meta: { title: '寺庙介绍管理' },
-        component: () => import('@/views/content/temple/index')
-      },
-      {
-        path: 'activity',
-        name: 'Activity',
-        meta: { title: '禅修活动管理' },
-        component: () => import('@/views/content/activity/index'),
+        path: 'list',
+        name: 'ArticleList',
+        meta: { title: '文章列表' },
+        component: () => import('@/views/article/list')
       }
     ]
   },
@@ -209,14 +131,8 @@ export default [
       {
         path: 'list',
         name: 'UserList',
-        meta: { title: '用户信息管理' },
+        meta: { title: '用户列表' },
         component: () => import('@/views/user/list/index'),
-      },
-      {
-        path: 'address',
-        name: 'UserAddress',
-        meta: { title: '收货地址管理' },
-        component: () => import('@/views/user/address/index'),
       }
     ]
   },

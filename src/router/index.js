@@ -4,6 +4,9 @@ import Layout from '@/layout'
 import { getToken, removeToken } from '@/utils/auth'
 import employeeRouter from './modules/employee'
 import bannerRouter from './modules/banner'
+import articleRouter from './modules/article'
+import userRouter from './modules/user'
+import wishRouter from './modules/wish'
 
 Vue.use(Router)
 
@@ -44,6 +47,9 @@ export const constantRoutes = [
   },
   employeeRouter,
   bannerRouter,
+  articleRouter,
+  userRouter,
+  wishRouter,
   {
     path: '/pms',
     component: Layout,
@@ -186,6 +192,50 @@ export const constantRoutes = [
       name: 'EditBanner',
       component: () => import('@/views/banner/edit'),
       meta: { title: '编辑Banner' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/article/add',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'AddArticle',
+      component: () => import('@/views/article/add'),
+      meta: { title: '添加文章' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/article/edit/:id',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'EditArticle',
+      component: () => import('@/views/article/edit'),
+      meta: { title: '编辑文章' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/wish/add',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'AddWish',
+      component: () => import('@/views/wish/add'),
+      meta: { title: '添加许愿祈福' },
+      hidden: true
+    }]
+  },
+  {
+    path: '/wish/edit/:id',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'EditWish',
+      component: () => import('@/views/wish/edit'),
+      meta: { title: '编辑许愿祈福' },
       hidden: true
     }]
   }
