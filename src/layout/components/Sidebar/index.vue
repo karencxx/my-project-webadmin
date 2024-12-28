@@ -65,6 +65,7 @@ export default {
     border: none;
     height: 100%;
     width: 100% !important;
+    overflow: auto;
   }
 }
 
