@@ -75,7 +75,6 @@
                             "role": {
                               "type": "string",
                               "description": "角色"
-                            }
                           }
                         }
                       }
@@ -83,6 +82,7 @@
                   }
                 }
               }
+            }
             },
             "headers": {}
           }
@@ -240,7 +240,7 @@
               }
             },
             "headers": {}
-          }
+            }
         },
         "security": []
       }
@@ -350,7 +350,6 @@
                               "createTime": {
                                 "type": "string",
                                 "description": "创建时间"
-                              }
                             }
                           }
                         }
@@ -359,6 +358,7 @@
                   }
                 }
               }
+            }
             },
             "headers": {}
           }

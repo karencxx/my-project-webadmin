@@ -1,18 +1,33 @@
 import page from '@/views/page'
 
 export default [
-  // 许愿祈福
+  // 员工管理
   {
-    path: '/wish',
-    name: 'Wish',
+    path: '/employee',
+    name: 'Employee',
     component: page,
-    meta: { title: '许愿祈福', icon: 'el-icon-magic-stick' },
+    meta: { title: '员工管理', icon: 'el-icon-s-custom' },
     children: [
       {
         path: 'list',
-        name: 'WishList',
-        meta: { title: '许愿祈福列表' },
-        component: () => import('@/views/wish/list')
+        name: 'EmployeeList',
+        meta: { title: '员工列表' },
+        component: () => import('@/views/employee/list')
+      }
+    ]
+  },
+  // Banner管理
+  {
+    path: '/banner',
+    name: 'Banner',
+    component: page,
+    meta: { title: 'Banner管理', icon: 'el-icon-picture' },
+    children: [
+      {
+        path: 'list',
+        name: 'BannerList',
+        meta: { title: 'Banner列表' },
+        component: () => import('@/views/banner/list')
       }
     ]
   },
@@ -31,18 +46,33 @@ export default [
       }
     ]
   },
-  // Banner管理
+  // 用户管理
   {
-    path: '/banner',
-    name: 'Banner',
+    path: '/user',
+    name: 'User',
     component: page,
-    meta: { title: 'Banner管理', icon: 'el-icon-picture' },
+    meta: { title: '用户管理', icon: 'el-icon-user' },
     children: [
       {
         path: 'list',
-        name: 'BannerList',
-        meta: { title: 'Banner列表' },
-        component: () => import('@/views/banner/list')
+        name: 'UserList',
+        meta: { title: '用户列表' },
+        component: () => import('@/views/user/list/index'),
+      }
+    ]
+  },
+  // 许愿祈福
+  {
+    path: '/wish',
+    name: 'Wish',
+    component: page,
+    meta: { title: '许愿祈福', icon: 'el-icon-magic-stick' },
+    children: [
+      {
+        path: 'list',
+        name: 'WishList',
+        meta: { title: '许愿祈福列表' },
+        component: () => import('@/views/wish/list')
       }
     ]
   },
@@ -118,36 +148,6 @@ export default [
         name: 'DharmaOrder',
         meta: { title: '商品订单管理' },
         component: () => import('@/views/order/dharma/index'),
-      }
-    ]
-  },
-  // 用户管理
-  {
-    path: '/user',
-    name: 'User',
-    component: page,
-    meta: { title: '用户管理', icon: 'el-icon-user' },
-    children: [
-      {
-        path: 'list',
-        name: 'UserList',
-        meta: { title: '用户列表' },
-        component: () => import('@/views/user/list/index'),
-      }
-    ]
-  },
-  // 员工管理
-  {
-    path: '/employee',
-    name: 'Employee',
-    component: page,
-    meta: { title: '员工管理', icon: 'el-icon-s-custom' },
-    children: [
-      {
-        path: 'list',
-        name: 'EmployeeList',
-        meta: { title: '员工列表' },
-        component: () => import('@/views/employee/list')
       }
     ]
   },
