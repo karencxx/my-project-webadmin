@@ -61,19 +61,20 @@ service.interceptors.response.use(
         })
       } else {
         Message({
-          message: res.message || 'Error',
+          message: '出错了',
           type: 'error',
           duration: 5 * 1000
         })
+        console.error(res.message)
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.message || '出错了'))
     }
     return res
   },
   error => {
     console.log('err' + error)
     Message({
-      message: error.message,
+      message: '出错啦',
       type: 'error',
       duration: 5 * 1000
     })

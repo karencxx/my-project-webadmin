@@ -2,12 +2,8 @@
   <div class="app-container">
     <!-- 搜索表单 -->
     <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-      </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+        <el-form :inline="true" :model="listQuery" size="small" label-width="100px">
           <el-form-item label="员工姓名：">
             <el-input v-model="listQuery.name" class="input-width" placeholder="员工姓名"></el-input>
           </el-form-item>
@@ -38,24 +34,20 @@
             <el-button
               type="primary"
               @click="handleSearchList()"
-              size="small">
-              查询结果
+              size="small"
+              icon="el-icon-search">
+              查询
             </el-button>
             <el-button
               type="success"
               @click="handleAdd()"
-              size="small">
+              size="small"
+              icon="el-icon-plus">
               添加员工
             </el-button>
           </el-form-item>
         </el-form>
       </div>
-    </el-card>
-    
-    <!-- 数据列表 -->
-    <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
     </el-card>
     
     <div class="table-container">
@@ -64,7 +56,7 @@
         :data="list"
         style="width: 100%"
         v-loading="listLoading"
-        border>
+        size="small">
         <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
         <el-table-column prop="name" label="员工姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
@@ -86,7 +78,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleUpdate(scope.row)">
+              @click="handleEdit(scope.row)">
               编辑
             </el-button>
             <el-button
@@ -99,37 +91,53 @@
         </el-table-column>
       </el-table>
     </div>
-    
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination
         background
+        hide-on-single-page
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="listQuery.page"
-        :page-sizes="[5,10,15]"
         :page-size="listQuery.size"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next"
         :total="total">
       </el-pagination>
+      <!-- :page-sizes="[5,10,15]" -->
     </div>
+    <el-drawer
+      title="新增员工"
+      :show-close="false"
+      :before-close="handleClose"
+      :visible.sync="drawer"
+      size="40%">
+      <employee-detail
+        ref="employeeForm"
+        :data="employeeDetail"
+        :organization-options="organizationOptions"
+        @submit-success="handleSubmitSuccess"
+        @cancel="handleClose">
+      </employee-detail>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 import { getEmployeeList, updateEmployeeStatus } from '@/api/employee'
+import EmployeeDetail from './components/EmployeeDetail'
 
 export default {
   name: 'EmployeeList',
+  components: { EmployeeDetail },
   data() {
     return {
       listQuery: {
         page: 1,
         size: 10,
-        name: undefined,
-        organization: undefined,
-        phone: undefined,
-        status: undefined
+        name: '',
+        organization: '',
+        phone: null,
+        status: ''
       },
       organizationOptions: [
         { label: '流量团队', value: 0 },
@@ -142,7 +150,9 @@ export default {
       list: [],
       total: 0,
       listLoading: false,
-      multipleSelection: []
+      multipleSelection: [],
+      drawer: false,
+      employeeDetail: {}
     }
   },
   created() {
@@ -163,7 +173,7 @@ export default {
       this.getList()
     },
     handleAdd() {
-      this.$router.push('/employee/add')
+      this.drawer = true
     },
     handleSizeChange(val) {
       this.listQuery.size = val
@@ -173,11 +183,9 @@ export default {
       this.listQuery.page = val
       this.getList()
     },
-    handleUpdate(row) {
-      this.$router.push({
-        path: `/employee/edit/${row.id}`,
-        query: { employee: JSON.stringify(row) }
-      })
+    handleEdit(row) {
+      this.employeeDetail = row
+      this.drawer = true
     },
     handleStatusChange(row) {
       this.$confirm(`确认要${row.status ? '禁用' : '启用'}该员工吗?`, '提示', {
@@ -195,11 +203,7 @@ export default {
           })
           this.getList()
         })
-      }).catch(() => {
-        this.$nextTick(() => {
-          row.status = !row.status
-        })
-      })
+      }).catch({})
     },
     getList() {
       this.listLoading = true
@@ -208,38 +212,19 @@ export default {
         this.list = response.data.list
         this.total = response.data.total
       })
+    },
+    handleClose() {
+      this.drawer = false
+      this.$refs.employeeForm.resetForm()
+    },
+    handleSubmitSuccess() {
+      this.drawer = false
+      this.getList()
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.filter-container {
-  margin-bottom: 20px;
-  
-  .input-width {
-    width: 200px;
-  }
-  
-  .el-form-item:last-child {
-    margin-left: 20px;
-    
-    .el-button + .el-button {
-      margin-left: 10px;
-    }
-  }
-}
 
-.operate-container {
-  margin-bottom: 20px;
-}
-
-.table-container {
-  margin-top: 20px;
-}
-
-.pagination-container {
-  margin-top: 20px;
-  text-align: right;
-}
 </style> 

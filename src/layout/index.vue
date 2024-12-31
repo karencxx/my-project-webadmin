@@ -1,10 +1,8 @@
 <template>
   <div class="app-wrapper">
     <sidebar class="sidebar-container"></sidebar>
-    
     <div class="main-container">
       <navbar></navbar>
-      
       <app-main></app-main>
     </div>
   </div>
@@ -34,7 +32,7 @@ export default {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 210px;
+    width: 180px;
     overflow: hidden;
     background: #304156;
     transition: width 0.28s;
@@ -42,7 +40,7 @@ export default {
   
   .main-container {
     min-height: 100%;
-    margin-left: 210px;
+    margin-left: 180px;
     position: relative;
   }
 }

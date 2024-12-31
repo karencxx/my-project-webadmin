@@ -2,12 +2,8 @@
   <div class="app-container">
     <!-- 搜索表单 -->
     <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-      </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+        <el-form :inline="true" :model="listQuery" size="small" label-width="100px">
           <el-form-item label="模块：">
             <el-select v-model="listQuery.module" placeholder="请选择" clearable class="input-width">
               <el-option
@@ -35,37 +31,35 @@
             <el-button
               type="primary"
               @click="handleSearchList()"
-              size="small">
+              size="small"
+              icon="el-icon-search">
               查询结果
             </el-button>
-            <el-button
-              type="success"
-              @click="handleAdd()"
-              size="small">
-              新增
-            </el-button>
+            <router-link to="/article/edit" class="ml-10">
+              <el-button
+                type="success"
+                size="small"
+                icon="el-icon-plus">
+                新增
+              </el-button>
+            </router-link>
           </el-form-item>
         </el-form>
       </div>
     </el-card>
-
-    <!-- 数据列表 -->
-    <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-    </el-card>
-
+    <!-- table -->
     <div class="table-container">
       <el-table
         ref="articleTable"
         :data="list"
         style="width: 100%"
         v-loading="listLoading"
+        size="small"
         border>
         <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
         <el-table-column label="主图" width="120" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.imageUrl" style="height: 80px">
+            <img :src="scope.row.imageUrl" class="table-image">
           </template>
         </el-table-column>
         <el-table-column prop="title" label="标题" align="center"></el-table-column>
@@ -78,17 +72,15 @@
         <el-table-column prop="creator" label="创建人" align="center"></el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.status"
-              @change="handleStatusChange(scope.row)">
-            </el-switch>
+            <el-tag type="success" v-if="scope.row.status">上架</el-tag>
+            <el-tag type="danger" v-else>下架</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleUpdate(scope.row)">
+              @click="handleEdit(scope.row)">
               修改
             </el-button>
             <el-button
@@ -105,12 +97,10 @@
     <div class="pagination-container">
       <el-pagination
         background
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="listQuery.page"
-        :page-sizes="[5, 10, 15]"
         :page-size="listQuery.size"
-        layout="total, sizes, prev, pager, next, jumper"
+        layout="total, prev, pager, next"
         :total="total">
       </el-pagination>
     </div>
@@ -161,21 +151,15 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleAdd() {
-      this.$router.push('/article/add')
-    },
-    handleSizeChange(val) {
-      this.listQuery.size = val
-      this.getList()
-    },
     handleCurrentChange(val) {
       this.listQuery.page = val
       this.getList()
     },
-    handleUpdate(row) {
+    handleEdit(row) {
+      this.$store.dispatch('data/setTransferData', row)
       this.$router.push({
-        path: `/article/edit/${row.id}`,
-        query: { article: JSON.stringify(row) }
+        path: `/article/edit`,
+        query: { id: row.id }
       })
     },
     handleStatusChange(row) {
@@ -194,10 +178,6 @@ export default {
           })
           this.getList()
         })
-      }).catch(() => {
-        this.$nextTick(() => {
-          row.status = !row.status
-        })
       })
     },
     getList() {
@@ -213,34 +193,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.filter-container {
-  margin-bottom: 20px;
-  
-  .input-width {
-    width: 200px;
-  }
-  
-  .el-form-item:last-child {
-    margin-left: 20px;
-    
-    .el-button + .el-button {
-      margin-left: 10px;
-    }
-  }
-}
-
-.operate-container {
-  margin-bottom: 20px;
-}
-
-.table-container {
-  margin-top: 20px;
-}
-
-.pagination-container {
-  margin-top: 20px;
-  text-align: right;
-}
-</style> 

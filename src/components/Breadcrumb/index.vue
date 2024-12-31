@@ -4,8 +4,7 @@
       <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path">
         <span 
           v-if="item.redirect === 'noredirect' || index == levelList.length-1" 
-          class="no-redirect"
-        >
+          class="no-redirect">
           {{ item.meta.title }}
         </span>
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
@@ -56,7 +55,8 @@ export default {
       return toPath(params)
     },
     handleLink(item) {
-      const { redirect, path } = item
+      const { redirect, path, meta: { disabledClick } } = item
+      if (disabledClick) return
       if (redirect) {
         this.$router.push(redirect)
         return
@@ -69,6 +69,7 @@ export default {
 
 <style lang="less" scoped>
 .app-breadcrumb.el-breadcrumb {
+  flex: 1;
   display: inline-block;
   font-size: 14px;
   line-height: 50px;

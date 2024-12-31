@@ -2,14 +2,14 @@
   <div class="app-container">
     <el-card class="form-container" shadow="never">
       <el-form
+        ref="articleForm"
         :model="articleForm"
         :rules="rules"
-        ref="articleForm"
-        label-width="150px"
+        label-width="100px"
         size="small"
         v-loading="loading">
         <el-form-item label="标题：" prop="title">
-          <el-input v-model="articleForm.title" class="input-width"></el-input>
+          <el-input v-model.trim="articleForm.title" class="input-width" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="模块：" prop="module">
           <el-select v-model="articleForm.module" placeholder="请选择" class="input-width">
@@ -22,28 +22,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="主图：" prop="imageUrl">
-          <el-upload
-            class="avatar-uploader"
-            :action="uploadUrl"
-            :headers="headers"
-            :show-file-list="false"
-            :on-success="handleUploadSuccess"
-            :before-upload="beforeUpload">
-            <img v-if="articleForm.imageUrl" :src="articleForm.imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <singleUpload v-model="articleForm.imageUrl" size="690*480" />
         </el-form-item>
         <el-form-item label="文章内容：" prop="content">
-          <el-input
-            type="textarea"
-            v-model="articleForm.content"
-            :rows="15"
-            class="input-width">
-          </el-input>
+            <Editor />
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit('articleForm')">提交</el-button>
-          <el-button @click="onCancel">取消</el-button>
+        <el-form-item label=" " class="form-btn-footer">
+          <el-button size="medium" type="primary" @click="onSubmit()" style="width: 200px;">提交</el-button>
+          <el-button size="medium" @click="onCancel" style="width: 100px;">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -52,17 +38,21 @@
 
 <script>
 import { getArticleDetail, updateArticle } from '@/api/article'
-import { getToken } from '@/utils/auth'
-
+import Editor from '@/components/Editor'
+import singleUpload from '@/components/Upload/singleUpload.vue'
 export default {
   name: 'EditArticle',
+  components: {
+    Editor,
+    singleUpload
+  },
   data() {
     return {
       loading: false,
       articleForm: {
-        id: undefined,
+        id: null,
         title: '',
-        module: undefined,
+        module: null,
         imageUrl: '',
         content: ''
       },
@@ -70,10 +60,6 @@ export default {
         { label: '了解寺庙', value: 0 },
         { label: '禅修活动', value: 1 }
       ],
-      uploadUrl: process.env.VUE_APP_BASE_URL + '/admin/upload/image',
-      headers: {
-        Authorization: 'Bearer ' + getToken()
-      },
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
@@ -91,22 +77,17 @@ export default {
     }
   },
   created() {
-    const id = this.$route.params.id
-    this.getArticleDetail(id)
+    const id = this.$route.query.id
+    if (id) {
+      this.getArticleDetail(id)
+    }
   },
   methods: {
     getArticleDetail(id) {
       this.loading = true
       getArticleDetail(id).then(response => {
         this.loading = false
-        const article = response.data
-        this.articleForm = {
-          id: article.id,
-          title: article.title,
-          module: article.module,
-          imageUrl: article.imageUrl,
-          content: article.content
-        }
+        this.articleForm = response.data
       }).catch(() => {
         this.loading = false
       })
@@ -114,19 +95,7 @@ export default {
     handleUploadSuccess(response) {
       this.articleForm.imageUrl = response.data.url
     },
-    beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG/PNG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-    onSubmit(formName) {
+    onSubmit(formName = 'articleForm') {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
@@ -149,43 +118,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less" scoped>
-.form-container {
-  width: 800px;
-  margin: 20px auto;
-}
-
-.input-width {
-  width: 370px;
-}
-
-.avatar-uploader {
-  .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    
-    &:hover {
-      border-color: #409EFF;
-    }
-  }
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style> 

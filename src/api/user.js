@@ -8,3 +8,22 @@ export function getUserList(params) {
     data: params
   })
 } 
+
+
+// 修改密码
+export function updatePassword(data) {
+  return request({
+    url: '/admin/employee/password/update',
+    method: 'post',
+    data
+  })
+}
+
+// 重置密码
+export function resetPassword(data) {
+  return request({
+    url: '/admin/employee/password/reset',
+    method: 'post',
+    data
+  })
+} 

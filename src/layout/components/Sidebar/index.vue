@@ -8,6 +8,7 @@
       :collapse-transition="false"
       mode="vertical"
       router
+      :collapse="isCollapse"
     >
       <!-- 首页菜单项 -->
       <el-menu-item index="/dashboard">
@@ -36,7 +37,7 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-      'sidebarStatus'
+      'sidebarOpened'
     ]),
     menuRoutes() {
       return menuRoutes
@@ -50,7 +51,7 @@ export default {
       return path
     },
     isCollapse() {
-      return !this.sidebarStatus
+      return !this.sidebarOpened
     }
   }
 }
@@ -59,13 +60,16 @@ export default {
 <style lang="less" scoped>
 .sidebar-container {
   height: 100%;
-  background-color: #304156;
   
   .el-menu {
     border: none;
     height: 100%;
     width: 100% !important;
-    overflow: auto;
+    overflow-y: auto;
+  }
+  .el-menu-item, .el-submenu__title {
+    height: 50px;
+    line-height: 50px;
   }
 }
 

@@ -34,4 +34,4 @@ export function updateEmployeeStatus(data) {
     method: 'put',
     data
   })
-} 
+}

@@ -1,16 +1,11 @@
 <template>
   <div class="dashboard-container">
-    <h1>Dashboard</h1>
+    <h1>欢迎使用【麦塔数字宗旅】管理后台</h1>
   </div>
 </template>
-
 <script>
 export default {
-  name: 'Dashboard',
-  data() {
-    return {
-    }
-  }
+  name: 'Dashboard'
 }
 </script>
 

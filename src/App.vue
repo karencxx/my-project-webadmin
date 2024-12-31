@@ -90,4 +90,46 @@ html, body {
   opacity: 0;
   transform: translate3d(-20px, 0, 0);
 }
+.w100{
+  width: 100%;
+}
+.mt-10{
+  margin-top: 10px;
+}
+.ml-10{
+  margin-left: 10px;
+}
+.mb-10{
+  margin-bottom: 10px;
+}
+.text-center{
+  text-align: center;
+}
+.flex-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table-container{
+  margin-top: 10px;
+  .table-image{
+    width: 80px;
+    height: 40px;
+  }
+}
+.filter-container{
+  margin-bottom: 15px;
+}
+.input-width{
+  width: 200px;
+}
+.pagination-container{
+  margin-top: 10px;
+  text-align: right;
+}
+.form-container{  
+  .form-btn-footer{
+    margin-top: 50px;
+  }
+}
 </style>

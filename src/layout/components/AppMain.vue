@@ -18,7 +18,7 @@ export default {
   min-height: calc(100vh - 50px);
   position: relative;
   overflow: hidden;
-  background: #f0f2f5;
+  background: #f7f7f7;
 }
 
 .fade-transform-enter-active,

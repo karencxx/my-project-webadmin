@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+export const types = [
+  { label: '丝带祈福', value: 1 },
+  { label: '福牌祈福', value: 2 },
+  { label: '供灯祈福', value: 3 },
+  { label: '放生祈福', value: 4 },
+  { label: '法物流通', value: 5 },
+  { label: '供奉佛像', value: 6 },
+]
+
 // 获取许愿祈福列表
 export function getWishList(params) {
   return request({
@@ -32,6 +41,33 @@ export function updateWishStatus(data) {
   return request({
     url: '/admin/wish/status',
     method: 'put',
+    data
+  })
+}
+
+// 获取祈福订单列表
+export function getWishOrders(data) {
+  return request({
+    url: '/admin/wish/orders',
+    method: 'post',
+    data
+  })
+}
+
+// 获取祈福订单详情
+export function getWishOrderDetail(data) {
+  return request({
+    url: '/admin/wish/order/detail',
+    method: 'post',
+    data
+  })
+}
+
+// 上传祈福视频
+export function uploadWishVideo(data) {
+  return request({
+    url: '/admin/wish/upload/video',
+    method: 'post',
     data
   })
 } 

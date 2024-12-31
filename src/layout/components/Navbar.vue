@@ -1,118 +1,126 @@
 <template>
-  <el-menu class="navbar" mode="horizontal">
-    
-    <breadcrumb />
-    
-    <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" :src="avatar">
-          <span class="user-name">{{ name }}</span>
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu class="user-dropdown" slot="dropdown">
-          <router-link class="inlineBlock" to="/">
-            <el-dropdown-item>
-              首页
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
-            <span @click="handleLogout" style="display:block;">退出登录</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-  </el-menu>
+  <div class="navbar-container">
+    <el-menu class="navbar" mode="horizontal">
+      <!-- <hamburger :is-active="sidebarOpened" :toggle-click="toggleSideBar" /> -->
+      <breadcrumb />
+      <div class="right-menu">
+        <i class="el-icon-s-custom" @click="drawer = true"></i>
+        <i class="el-icon-switch-button" @click="handleLogout"></i>
+      </div>
+    </el-menu>
+
+    <el-drawer
+      direction="rtl"
+      custom-class="demo-drawer"
+      ref="drawer"
+      :size="500"
+      :show-close="false"
+      :visible.sync="drawer"
+      :with-header="false"
+    >
+      <div class="drawer-content">
+        <el-descriptions title="个人信息" :column="1" border size="medium">
+          <el-descriptions-item label="姓名">{{
+            userInfo.name
+          }}</el-descriptions-item>
+          <el-descriptions-item label="角色"
+            ><el-tag size="small">{{
+              userInfo.role
+            }}</el-tag></el-descriptions-item
+          >
+          <el-descriptions-item label="组织">{{
+            userInfo.team
+          }}</el-descriptions-item>
+          <el-descriptions-item label="手机号">{{
+            userInfo.phone
+          }}</el-descriptions-item>
+          <el-descriptions-item label="操作">
+            <el-button @click="handleChangePassword" type="text" size="small">修改密码</el-button>
+            <el-button @click="handleResetPassword" type="text" size="small">重置密码</el-button>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <div></div>
+    </el-drawer>
+    <password
+      :visible.sync="passwordVisible"
+      :is-reset="isResetPassword">
+    </password>
+  </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-// import Hamburger from '@/components/Hamburger'
+import Breadcrumb from "@/components/Breadcrumb";
+import Password from '@/components/Password'
 
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   components: {
     Breadcrumb,
-    // Hamburger
+    Password
+  },
+  data() {
+    return {
+      drawer: false,
+      userInfo: {
+        name: "1",
+        role: "dfd",
+        team: "dfd",
+        phone: "1234567890",
+        password: "dfd",
+      },
+      loading: false,
+      passwordVisible: false,
+      isResetPassword: false
+    };
   },
   computed: {
-    ...mapState('user', ['name']),
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
+    sidebarOpened() {
+      return this.$store.getters["sidebar/sidebarOpened"];
+    },
   },
   methods: {
-    ...mapActions('app', ['toggleSideBar']),
-    ...mapActions('user', ['logout']),
     async handleLogout() {
-      try {
-        await this.logout()
-        this.$router.push('/login')
-      } catch (error) {
-        console.error('Logout failed:', error)
-      }
+      this.$confirm("确定要退出登录吗？", "提示", {
+        type: "warning",
+      })
+        .then(async () => {
+          try {
+            await this.$store.dispatch("user/logout");
+            this.$router.push("/login");
+          } catch (error) {
+            console.error("Logout failed:", error);
+          }
+        })
+        .catch(() => {});
+    },
+    handleChangePassword() {
+      this.isResetPassword = false
+      this.passwordVisible = true
+    },
+    handleResetPassword() {
+      this.isResetPassword = true
+      this.passwordVisible = true
     }
-  }
-}
+  },
+};
 </script>
 
 <style lang="less" scoped>
 .navbar {
-  height: 50px;
-  line-height: 50px;
-  border-radius: 0 !important;
   display: flex;
   justify-content: space-between;
-  
-  .hamburger-container {
-    line-height: 58px;
-    height: 50px;
-    float: left;
-    padding: 0 10px;
-  }
-  
-  .right-menu {
-    float: right;
-    height: 100%;
-    
-    .avatar-container {
-      height: 50px;
-      display: inline-block;
-      margin-right: 35px;
-      
-      .avatar-wrapper {
-        cursor: pointer;
-        margin-top: 5px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-          margin-right: 8px;
-        }
-        
-        .user-name {
-          color: #333;
-          font-size: 14px;
-        }
-        
-        .el-icon-caret-bottom {
-          margin-left: 8px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
+  align-items: center;
+  padding-right: 20px;
+  height: 50px;
+  line-height: 50px;
 }
-
-.user-dropdown {
-  .inlineBlock {
-    display: inline-block;
-  }
+.drawer-content {
+  padding: 10px 40px;
 }
-</style> 
+[class^="el-icon-"] {
+  font-size: 22px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+</style>

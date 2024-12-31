@@ -15,8 +15,10 @@
     "js-cookie": "^3.0.5",
     "sass-loader": "^10.4.1",
     "vue": "^2.6.14",
+    "vue-jlunar-datepicker": "^2.3.2",
     "vue-router": "^3.5.3",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "wangeditor": "^4.7.15"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",

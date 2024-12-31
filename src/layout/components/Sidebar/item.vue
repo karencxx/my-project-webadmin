@@ -68,6 +68,7 @@ export default {
 
 <style lang="less" scoped>
 .sidebar-item {
+
   .el-menu-item {
     &:focus {
       background-color: #263445 !important;
@@ -85,32 +86,11 @@ export default {
       }
     }
   }
-
   [class^="el-icon-"] {
-    margin-right: 16px;
-    width: 24px;
+    margin-right: 10px;
     text-align: center;
     font-size: 18px;
     vertical-align: middle;
-  }
-
-  .sub-el-icon {
-    margin-right: 12px;
-    margin-left: -2px;
-  }
-}
-
-.el-menu--popup {
-  .el-menu-item {
-    background-color: #1f2d3d;
-    
-    &:hover {
-      background-color: #001528;
-    }
-    
-    &.is-active {
-      background-color: #409EFF;
-    }
   }
 }
 </style>
