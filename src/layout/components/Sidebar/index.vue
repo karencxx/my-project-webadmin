@@ -1,15 +1,13 @@
 <template>
   <div class="sidebar-container">
     <el-menu
-      :default-active="$route.path"
+      :default-active="getActivePath"
       background-color="#304156"
       text-color="#bfcbd9"
       active-text-color="#409EFF"
-      :collapse-transition="false"
-      mode="vertical"
-      router
       :collapse="isCollapse"
-    >
+      mode="vertical"
+      router>
       <!-- 首页菜单项 -->
       <el-menu-item index="/dashboard">
         <i class="el-icon-s-home"></i>
@@ -36,19 +34,14 @@ export default {
   name: 'Sidebar',
   components: { SidebarItem },
   computed: {
-    ...mapGetters([
-      'sidebarOpened'
-    ]),
+    ...mapGetters(['sidebarOpened']),
     menuRoutes() {
       return menuRoutes
     },
-    activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
+    getActivePath() {
+      const { redirectedFrom, path, meta: { parentPath } } = this.$route
+      console.log(redirectedFrom, path, 'ddd', parentPath)
+      return parentPath || redirectedFrom || path
     },
     isCollapse() {
       return !this.sidebarOpened
@@ -60,13 +53,16 @@ export default {
 <style lang="less" scoped>
 .sidebar-container {
   height: 100%;
+  position: relative;
   
   .el-menu {
     border: none;
     height: 100%;
     width: 100% !important;
     overflow-y: auto;
+    overflow-x: hidden;
   }
+  
   .el-menu-item, .el-submenu__title {
     height: 50px;
     line-height: 50px;

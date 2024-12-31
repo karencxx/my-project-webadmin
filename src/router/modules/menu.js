@@ -26,14 +26,14 @@ export default [
       {
         path: '/banner/list',
         name: 'BannerList',
-        meta: { title: '列表' },
+        meta: { title: '列表', parentPath: '/banner' },
         component: () => import('@/views/banner/list'),
         hidden: true
       },
       {
         path: '/banner/edit',
         name: 'EditBanner',
-        meta: { title: '编辑' },
+        meta: { title: '编辑', parentPath: '/banner' },
         component: () => import('@/views/banner/edit'),
         hidden: true
       }
@@ -43,18 +43,8 @@ export default [
   {
     path: '/recommond',
     name: 'Recommond',
-    redirect: '/recommond/list',
-    meta: { title: '随喜结缘', icon: 'el-icon-present', expanded: false },
-    component: page,
-    children: [
-      {
-        path: '/recommond/list',
-        name: 'RecommondList',
-        meta: { title: '列表' },
-        component: () => import('@/views/recommond/list'),
-        hidden: true
-      }
-    ]
+    meta: { title: '随喜结缘', icon: 'el-icon-present'},
+    component: () => import('@/views/recommond/list')
   },
   // 文章管理
   {
@@ -67,14 +57,14 @@ export default [
       {
         path: 'list',
         name: 'ArticleList',
-        meta: { title: '文章列表' },
+        meta: { title: '文章列表', parentPath: '/article' },
         hidden: true,
         component: () => import('@/views/article/list')
       },
       {
         path: '/article/edit',
         name: 'EditArticle',
-        meta: { title: '编辑' },
+        meta: { title: '编辑', parentPath: '/article' },
         component: () => import('@/views/article/edit'),
         hidden: true
       }
@@ -104,28 +94,28 @@ export default [
           {
             path: '/wish/type/list',
             name: 'WishTypeList',
-            meta: { title: '列表' },
+            meta: { title: '列表', parentPath: '/wish/type' },
             component: () => import('@/views/wish/type/list'),
             hidden: true
           },
           {
             path: '/wish/type/detail',
             name: 'WishTypeDetail',
-            meta: { title: '详情' },
+            meta: { title: '详情', parentPath: '/wish/type' },
             component: () => import('@/views/wish/type/detail'),
             hidden: true
           },
           {
             path: '/wish/type/goodList',
             name: 'WishGoodList',
-            meta: { title: '祈福商品' },
+            meta: { title: '祈福商品', parentPath: '/wish/type' },
             component: () => import('@/views/wish/type/goodList'),
             hidden: true
           },
           {
             path: '/wish/type/activityList',
             name: 'WishActivityList',
-            meta: { title: '祈福活动' },
+            meta: { title: '祈福活动', parentPath: '/wish/type' },
             component: () => import('@/views/wish/activity/list'),
             hidden: true
           }
@@ -141,14 +131,14 @@ export default [
           {
             path: '/wish/order/list',
             name: 'WishOrderList',
-            meta: { title: '列表' },
+            meta: { title: '列表', parentPath: '/wish/order' },
             component: () => import('@/views/wish/order/list'),
             hidden: true
           },
           {
             path: '/wish/order/detail',
             name: 'WishOrderDetail',
-            meta: { title: '详情' },
+            meta: { title: '详情', parentPath: '/wish/order' },
             component: () => import('@/views/wish/order/detail'),
             hidden: true
           }

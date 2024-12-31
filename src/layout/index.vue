@@ -1,14 +1,17 @@
 <template>
-  <div class="app-wrapper">
-    <sidebar class="sidebar-container"></sidebar>
+  <div class="app-wrapper" :class="{ 'hide-sidebar': !sidebarOpened }">
+    <div class="sidebar-wrapper">
+      <sidebar />
+    </div>
     <div class="main-container">
-      <navbar></navbar>
-      <app-main></app-main>
+      <navbar />
+      <app-main />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Navbar, Sidebar, AppMain } from './components'
 
 export default {
@@ -17,6 +20,9 @@ export default {
     Navbar,
     Sidebar,
     AppMain
+  },
+  computed: {
+    ...mapGetters(['sidebarOpened'])
   }
 }
 </script>
@@ -27,21 +33,33 @@ export default {
   height: 100%;
   width: 100%;
   
-  .sidebar-container {
+  .sidebar-wrapper {
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
+    left: 0;
     width: 180px;
+    transition: width .3s;
+    background-color: #304156;
+    z-index: 1001;
     overflow: hidden;
-    background: #304156;
-    transition: width 0.28s;
   }
   
   .main-container {
     min-height: 100%;
     margin-left: 180px;
     position: relative;
+    transition: margin-left .3s;
+  }
+  
+  &.hide-sidebar {
+    .sidebar-wrapper {
+      width: 64px;
+    }
+    
+    .main-container {
+      margin-left: 64px;
+    }
   }
 }
 </style> 

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-container">
     <el-menu class="navbar" mode="horizontal">
-      <!-- <hamburger :is-active="sidebarOpened" :toggle-click="toggleSideBar" /> -->
+      <hamburger :is-active="sidebarOpened" :toggle-click="toggleSideBar" />
       <breadcrumb />
       <div class="right-menu">
         <i class="el-icon-s-custom" @click="drawer = true"></i>
@@ -52,12 +52,13 @@
 <script>
 import Breadcrumb from "@/components/Breadcrumb";
 import Password from '@/components/Password'
-
+import Hamburger from '@/components/Hamburger'
 export default {
   name: "Navbar",
   components: {
     Breadcrumb,
-    Password
+    Password,
+    Hamburger
   },
   data() {
     return {
@@ -80,6 +81,9 @@ export default {
     },
   },
   methods: {
+    toggleSideBar() {
+      this.$store.dispatch('sidebar/toggleSideBar')
+    },
     async handleLogout() {
       this.$confirm("确定要退出登录吗？", "提示", {
         type: "warning",
