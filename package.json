@@ -6,8 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:unit": "jest --coverage ",
+    "test:unit": "jest --coverage login.spec.js",
     "build:prod": "vue-cli-service build --mode production",
+    "build:beta": "vue-cli-service build --mode beta",
     "build:report": "vue-cli-service build --report",
     "deploy": "npm run build:prod && node deploy.js"
   },

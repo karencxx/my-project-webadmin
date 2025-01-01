@@ -3,7 +3,9 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' 
+    ? process.env.VUE_APP_CDN_URL 
+    : '/',
   productionSourceMap: false,
   
   configureWebpack: config => {
@@ -48,6 +50,8 @@ module.exports = {
           }
         }
       }
+    } else {
+      // 开发环境配置
     }
   },
 

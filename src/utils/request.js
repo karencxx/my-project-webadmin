@@ -11,6 +11,9 @@ const service = axios.create({
   timeout: 15000
 })
 
+// 是否启用加密
+const enableEncrypt = process.env.VUE_APP_ENABLE_ENCRYPT === 'true'
+
 // request拦截器
 service.interceptors.request.use(
   config => {
@@ -26,7 +29,7 @@ service.interceptors.request.use(
         config.headers['Authorization'] = 'Bearer ' + token
       }
     }
-    if (config.method === 'post') {
+    if (enableEncrypt && config.method === 'post') {
       config.data = encrypt(config.data)
     }
     return config
