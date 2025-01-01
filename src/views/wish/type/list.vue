@@ -33,7 +33,7 @@
     </el-card>
 
     <div class="table-container">
-      <el-table :data="list" style="width: 100%" v-loading="listLoading" border>
+      <el-table :data="list" style="width: 100%" v-loading="listLoading" size="small">
         <el-table-column
           type="index"
           label="序号"

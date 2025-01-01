@@ -16,6 +16,7 @@
     "@babel/runtime": "^7.12.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.2.0",
     "element-ui": "^2.15.13",
     "js-cookie": "^3.0.5",
     "sass-loader": "^10.4.1",
@@ -35,6 +36,7 @@
     "@vue/vue2-jest": "^27.0.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.6",
+    "compression-webpack-plugin": "^6.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^27.0.6",
@@ -42,9 +44,8 @@
     "jest-transform-stub": "^2.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
-    "vue-template-compiler": "^2.6.14",
-    "compression-webpack-plugin": "^6.1.1",
-    "terser-webpack-plugin": "^4.2.3"
+    "terser-webpack-plugin": "^4.2.3",
+    "vue-template-compiler": "^2.6.14"
   },
   "jest": {
     "moduleFileExtensions": [
