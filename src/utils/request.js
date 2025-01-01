@@ -3,6 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import router from '@/router'
+import CryptoJS from 'crypto-js'
 
 // 创建axios实例
 const service = axios.create({
@@ -24,6 +25,9 @@ service.interceptors.request.use(
         // Bearer是JWT的认证头部信息
         config.headers['Authorization'] = 'Bearer ' + token
       }
+    }
+    if (config.method === 'post') {
+      config.data = encrypt(config.data)
     }
     return config
   },
@@ -69,6 +73,9 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.message || '出错了'))
     }
+    if (response.data.encrypted) {
+      response.data = decrypt(response.data.data)
+    }
     return res
   },
   error => {
@@ -81,5 +88,14 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+function encrypt(data) {
+  return CryptoJS.AES.encrypt(data, 'secret-key').toString()
+}
+
+function decrypt(encrypted) {
+  const bytes = CryptoJS.AES.decrypt(encrypted, 'secret-key')
+  return bytes.toString(CryptoJS.enc.Utf8)
+}
 
 export default service 
