@@ -38,7 +38,8 @@
         <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
         <el-table-column prop="nickname" label="用户昵称" align="center"></el-table-column>
         <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+        <el-table-column prop="phone" label="功德值" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="时间" align="center"></el-table-column>
       </el-table>
     </div>
 

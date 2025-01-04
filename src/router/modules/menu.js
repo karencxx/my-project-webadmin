@@ -146,6 +146,13 @@ export default [
       }
     ]
   },
+  // 志愿者管理
+  {
+    path: '/volunteer',
+    name: 'Volunteer',
+    meta: { title: '寺庙义工', icon: 'el-icon-s-flag' },
+    component: () => import('@/views/volunteer/list')
+  },
   // 法物流通管理
   // {
   //   path: '/dharma',
