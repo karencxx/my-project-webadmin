@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     sidebarOpened() {
-      return this.$store.getters["sidebar/sidebarOpened"];
+      return this.$store.getters["sidebarOpened"];
     },
   },
   methods: {

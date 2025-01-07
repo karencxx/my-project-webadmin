@@ -77,6 +77,13 @@ export default [
     meta: { title: '用户管理', icon: 'el-icon-user' },
     component: () => import('@/views/user/list')
   },
+  // 志愿者管理
+  {
+    path: '/volunteer',
+    name: 'Volunteer',
+    meta: { title: '寺庙义工', icon: 'el-icon-s-flag' },
+    component: () => import('@/views/volunteer/list')
+  },
   // 许愿祈福
   {
     path: '/wish',
@@ -146,80 +153,51 @@ export default [
       }
     ]
   },
-  // 志愿者管理
+  // 寺庙文创
   {
-    path: '/volunteer',
-    name: 'Volunteer',
-    meta: { title: '寺庙义工', icon: 'el-icon-s-flag' },
-    component: () => import('@/views/volunteer/list')
+    path: '/goods',
+    name: 'Goods',
+    component: page,
+    meta: { title: '寺庙文创', icon: 'el-icon-goods' },
+    children: [
+      {
+        path: 'category',
+        name: 'GoodsCategory',
+        meta: { title: '商品分类' },
+        component: () => import('@/views/goods/category/index'),
+      },
+      {
+        path: 'product',
+        name: 'GoodsProduct',
+        meta: { title: '商品档案' },
+        component: () => import('@/views/goods/product/index'),
+      },
+      {
+        path: 'order',
+        name: 'GoodsOrder',
+        meta: { title: '订单管理' },
+        component: () => import('@/views/goods/order/index'),
+      }
+    ]
   },
-  // 法物流通管理
-  // {
-  //   path: '/dharma',
-  //   name: 'Dharma',
-  //   component: page,
-  //   meta: { title: '法物流通管理', icon: 'el-icon-goods' },
-  //   children: [
-  //     {
-  //       path: 'category',
-  //       name: 'Category',
-  //       meta: { title: '商品分类管理' },
-  //       component: () => import('@/views/dharma/category/index'),
-  //     },
-  //     {
-  //       path: 'product',
-  //       name: 'DharmaProduct',
-  //       meta: { title: '商品管理' },
-  //       component: () => import('@/views/dharma/product/index'),
-  //     }
-  //   ]
-  // },
-  // 数据统计
-  // {
-  //   path: '/statistics',
-  //   name: 'Statistics',
-  //   component: page,
-  //   meta: { title: '数据统计', icon: 'el-icon-s-data' },
-  //   children: [
-  //     {
-  //       path: 'order',
-  //       name: 'OrderStatistics',
-  //       meta: { title: '订单统计' },
-  //       component: () => import('@/views/statistics/order/index'),
-  //     },
-  //     {
-  //       path: 'user',
-  //       name: 'UserStatistics',
-  //       meta: { title: '用户统计' },
-  //       component: () => import('@/views/statistics/user/index'),
-  //     },
-  //     {
-  //       path: 'income',
-  //       name: 'IncomeStatistics',
-  //       meta: { title: '收入统计' },
-  //       component: () => import('@/views/statistics/income/index'),
-  //     }
-  //   ]
-  // },
-  // 系统设置
-  // {
-  //   path: '/setting',
-  //   name: 'Setting',
-  //   component: page,
-  //   meta: { title: '系统设置', icon: 'el-icon-setting' },
-  //   children: [
-  //     {
-  //       path: 'basic',
-  //       name: 'BasicSetting',
-  //       meta: { title: '基础配置' },
-  //       component: () => import('@/views/setting/basic/index'),
-  //     },
-  //     {
-  //       path: 'payment',
-  //       name: 'PaymentSetting',
-  //       meta: { title: '支付配置' },
-  //       component: () => import('@/views/setting/payment/index'),
-  //     }
-  //   ]
-  // }
+  {
+    path: '/practice',
+    name: 'Practice',
+    component: page,
+    meta: { title: '精进', icon: 'el-icon-medal' },
+    children: [
+      {
+        path: 'category',
+        name: 'PracticeCategory',
+        meta: { title: '精进分类' },
+        component: () => import('@/views/practice/category/index'),
+      },
+      {
+        path: 'content',
+        name: 'PracticeContent',
+        meta: { title: '精进内容' },
+        component: () => import('@/views/practice/content/index'),
+      }
+    ]
+  }
 ] 

@@ -1,7 +1,7 @@
 <template>
-  <div style="padding: 0 15px;" @click="toggleClick">
-    <i class="el-icon-s-unfold" v-if="isActive"></i>
-    <i class="el-icon-s-fold" v-else></i>
+  <div class="pad-15" @click="toggleClick">
+    <i class="el-icon-s-fold" v-if="isActive"></i>
+    <i class="el-icon-s-unfold" v-else></i>
   </div>
 </template>
 
@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.pad-15 {
+  padding: 0 15px;
+}
 .el-icon-s-fold,
 .el-icon-s-unfold {
   font-size: 22px;

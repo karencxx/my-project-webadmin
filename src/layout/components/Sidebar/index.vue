@@ -9,7 +9,7 @@
       mode="vertical"
       router>
       <!-- 首页菜单项 -->
-      <el-menu-item index="/dashboard">
+      <el-menu-item route="/dashboard">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -40,7 +40,6 @@ export default {
     },
     getActivePath() {
       const { redirectedFrom, path, meta: { parentPath } } = this.$route
-      console.log(redirectedFrom, path, 'ddd', parentPath)
       return parentPath || redirectedFrom || path
     },
     isCollapse() {

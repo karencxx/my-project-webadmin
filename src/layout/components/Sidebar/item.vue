@@ -2,7 +2,7 @@
   <div class="sidebar-item">
     <!-- 有子菜单的情况 -->
     <template v-if="hasChildren(item)">
-      <el-submenu :index="resolvePath(item.path)">
+      <el-submenu :route="resolvePath(item.path)">
         <template slot="title">
           <i v-if="item.meta && item.meta.icon" :class="item.meta.icon"></i>
           <span>{{ item.meta.title }}</span>
@@ -18,7 +18,7 @@
     </template>
     <!-- 没有子菜单的情况 -->
     <template v-else>
-      <el-menu-item :index="resolvePath(item.path)">
+      <el-menu-item :route="resolvePath(item.path)">
         <i v-if="item.meta && item.meta.icon" :class="item.meta.icon"></i>
         <span slot="title">{{ item.meta.title }}</span>
       </el-menu-item>
