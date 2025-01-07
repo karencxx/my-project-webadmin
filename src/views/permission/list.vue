@@ -167,7 +167,6 @@ export default {
       this.getList()
     },
     onSubmit() {
-      console.log(this.permissionDetail)
       updatePermission(this.permissionDetail).then(response => {
         this.$message.success('修改成功')
         this.getList()

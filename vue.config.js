@@ -2,10 +2,19 @@ const path = require('path')
 const CompressionPlugin = require('compression-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
+// 根据不同环境设置不同的 publicPath
+const getPublicPath = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return '/admin-dist/'
+  }
+  if (process.env.NODE_ENV === 'beta') {
+    return '/admin-dist/beta/'
+  }
+  return '/'
+}
+
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' 
-    ? process.env.VUE_APP_CDN_URL 
-    : '/',
+  publicPath: getPublicPath(),
   productionSourceMap: false,
   
   configureWebpack: config => {

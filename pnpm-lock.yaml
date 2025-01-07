@@ -14,6 +14,7 @@ specifiers:
   babel-jest: ^27.0.6
   compression-webpack-plugin: ^6.1.1
   core-js: ^3.6.5
+  cross-env: ^7.0.3
   crypto-js: ^4.2.0
   element-ui: ^2.15.13
   eslint: ^6.7.2
@@ -24,6 +25,7 @@ specifiers:
   js-cookie: ^3.0.5
   less: ^3.0.4
   less-loader: ^5.0.0
+  node-ssh: ^13.2.0
   sass-loader: ^10.4.1
   terser-webpack-plugin: ^4.2.3
   vue: ^2.6.14
@@ -58,6 +60,7 @@ devDependencies:
   babel-eslint: 10.1.0_eslint@6.8.0
   babel-jest: 27.5.1_@babel+core@7.26.0
   compression-webpack-plugin: 6.1.2
+  cross-env: 7.0.3
   eslint: 6.8.0
   eslint-plugin-vue: 6.2.2_eslint@6.8.0
   jest: 27.5.1
@@ -65,6 +68,7 @@ devDependencies:
   jest-transform-stub: 2.0.0
   less: 3.13.1
   less-loader: 5.0.0_less@3.13.1
+  node-ssh: 13.2.0
   terser-webpack-plugin: 4.2.3
   vue-template-compiler: 2.7.16
 
@@ -3366,6 +3370,12 @@ packages:
       isarray: 1.0.0
     dev: true
 
+  /buildcheck/0.0.6:
+    resolution: {integrity: sha512-8f9ZJCUXyT1M35Jx7MkBgmBMo3oHTTBIPLiY9xyL0pl3T5RwcPEY8cUHr5LBNfu/fk6c2T4DJZuVM/8ZZT2D2A==}
+    engines: {node: '>=10.0.0'}
+    dev: true
+    optional: true
+
   /builtin-status-codes/3.0.0:
     resolution: {integrity: sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==}
     dev: true
@@ -4039,6 +4049,16 @@ packages:
       parse-json: 4.0.0
     dev: true
 
+  /cpu-features/0.0.10:
+    resolution: {integrity: sha512-9IkYqtX3YHPCzoVg1Py+o9057a3i0fp7S530UWokCSaFVTc7CwXPRiOjRjBQQ18ZCNafx78YfnG+HALxtVmOGA==}
+    engines: {node: '>=10.0.0'}
+    requiresBuild: true
+    dependencies:
+      buildcheck: 0.0.6
+      nan: 2.22.0
+    dev: true
+    optional: true
+
   /create-ecdh/4.0.4:
     resolution: {integrity: sha512-mf+TCx8wWc9VpuxfP2ht0iSISLZnt0JgWlrOKZiNqyUZWnjIaCIVNQArMHnCZKfEYRg6IM7A+NeJoN8gf/Ws0A==}
     dependencies:
@@ -4065,6 +4085,14 @@ packages:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.6
     dev: true
 
   /cross-spawn/5.1.0:
@@ -8163,6 +8191,18 @@ packages:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
     dev: true
 
+  /node-ssh/13.2.0:
+    resolution: {integrity: sha512-7vsKR2Bbs66th6IWCy/7SN4MSwlVt+G6QrHB631BjRUM8/LmvDugtYhi0uAmgvHS/+PVurfNBOmELf30rm0MZg==}
+    engines: {node: '>= 10'}
+    dependencies:
+      is-stream: 2.0.1
+      make-dir: 3.1.0
+      sb-promise-queue: 2.1.1
+      sb-scandir: 3.1.0
+      shell-escape: 0.2.0
+      ssh2: 1.16.0
+    dev: true
+
   /nopt/7.2.1:
     resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -9707,6 +9747,18 @@ packages:
       xmlchars: 2.2.0
     dev: true
 
+  /sb-promise-queue/2.1.1:
+    resolution: {integrity: sha512-qXfdcJQMxMljxmPprn4Q4hl3pJmoljSCzUvvEBa9Kscewnv56n0KqrO6yWSrGLOL9E021wcGdPa39CHGKA6G0w==}
+    engines: {node: '>= 8'}
+    dev: true
+
+  /sb-scandir/3.1.0:
+    resolution: {integrity: sha512-70BVm2xz9jn94zSQdpvYrEG101/UV9TVGcfWr9T5iob3QhCK4lYXeculfBqPGFv3XTeKgx4dpWyYIDeZUqo4kg==}
+    engines: {node: '>= 8'}
+    dependencies:
+      sb-promise-queue: 2.1.1
+    dev: true
+
   /schema-utils/1.0.0:
     resolution: {integrity: sha512-i27Mic4KovM/lnGsy8whRCHhc7VicJajAjTrYg11K9zfZXnYIt4k5F+kZkwjnrhKzLic/HLU4j11mjsz2G/75g==}
     engines: {node: '>= 4'}
@@ -9890,6 +9942,10 @@ packages:
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+    dev: true
+
+  /shell-escape/0.2.0:
+    resolution: {integrity: sha512-uRRBT2MfEOyxuECseCZd28jC1AJ8hmqqneWQ4VWUTgCAFvb3wKU1jLqj6egC4Exrr88ogg3dp+zroH4wJuaXzw==}
     dev: true
 
   /shell-quote/1.8.2:
@@ -10143,6 +10199,18 @@ packages:
 
   /sprintf-js/1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
+    dev: true
+
+  /ssh2/1.16.0:
+    resolution: {integrity: sha512-r1X4KsBGedJqo7h8F5c4Ybpcr5RjyP+aWIG007uBPRjmdQWfEiVLzSK71Zji1B9sKxwaCvD8y8cwSkYrlLiRRg==}
+    engines: {node: '>=10.16.0'}
+    requiresBuild: true
+    dependencies:
+      asn1: 0.2.6
+      bcrypt-pbkdf: 1.0.2
+    optionalDependencies:
+      cpu-features: 0.0.10
+      nan: 2.22.0
     dev: true
 
   /sshpk/1.18.0:
