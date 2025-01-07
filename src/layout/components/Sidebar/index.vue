@@ -9,7 +9,7 @@
       mode="vertical"
       router>
       <!-- 首页菜单项 -->
-      <el-menu-item route="/dashboard">
+      <el-menu-item index="/dashboard">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>

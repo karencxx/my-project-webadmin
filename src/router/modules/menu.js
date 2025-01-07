@@ -154,50 +154,50 @@ export default [
     ]
   },
   // 寺庙文创
-  {
-    path: '/goods',
-    name: 'Goods',
-    component: page,
-    meta: { title: '寺庙文创', icon: 'el-icon-goods' },
-    children: [
-      {
-        path: 'category',
-        name: 'GoodsCategory',
-        meta: { title: '商品分类' },
-        component: () => import('@/views/goods/category/index'),
-      },
-      {
-        path: 'product',
-        name: 'GoodsProduct',
-        meta: { title: '商品档案' },
-        component: () => import('@/views/goods/product/index'),
-      },
-      {
-        path: 'order',
-        name: 'GoodsOrder',
-        meta: { title: '订单管理' },
-        component: () => import('@/views/goods/order/index'),
-      }
-    ]
-  },
-  {
-    path: '/practice',
-    name: 'Practice',
-    component: page,
-    meta: { title: '精进', icon: 'el-icon-medal' },
-    children: [
-      {
-        path: 'category',
-        name: 'PracticeCategory',
-        meta: { title: '精进分类' },
-        component: () => import('@/views/practice/category/index'),
-      },
-      {
-        path: 'content',
-        name: 'PracticeContent',
-        meta: { title: '精进内容' },
-        component: () => import('@/views/practice/content/index'),
-      }
-    ]
-  }
+  // {
+  //   path: '/goods',
+  //   name: 'Goods',
+  //   component: page,
+  //   meta: { title: '寺庙文创', icon: 'el-icon-goods' },
+  //   children: [
+  //     {
+  //       path: 'category',
+  //       name: 'GoodsCategory',
+  //       meta: { title: '商品分类' },
+  //       component: () => import('@/views/goods/category/index'),
+  //     },
+  //     {
+  //       path: 'product',
+  //       name: 'GoodsProduct',
+  //       meta: { title: '商品档案' },
+  //       component: () => import('@/views/goods/product/index'),
+  //     },
+  //     {
+  //       path: 'order',
+  //       name: 'GoodsOrder',
+  //       meta: { title: '订单管理' },
+  //       component: () => import('@/views/goods/order/index'),
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/practice',
+  //   name: 'Practice',
+  //   component: page,
+  //   meta: { title: '精进', icon: 'el-icon-medal' },
+  //   children: [
+  //     {
+  //       path: 'category',
+  //       name: 'PracticeCategory',
+  //       meta: { title: '精进分类' },
+  //       component: () => import('@/views/practice/category/index'),
+  //     },
+  //     {
+  //       path: 'content',
+  //       name: 'PracticeContent',
+  //       meta: { title: '精进内容' },
+  //       component: () => import('@/views/practice/content/index'),
+  //     }
+  //   ]
+  // }
 ] 
