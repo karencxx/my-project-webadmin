@@ -47,6 +47,7 @@
 
 <script>
 import { updatePassword, resetPassword } from '@/api/user'
+import md5 from 'js-md5'
 
 export default {
   name: 'Password',
@@ -72,9 +73,9 @@ export default {
     return {
       loading: false,
       passwordForm: {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        oldPassword: null,
+        newPassword: null,
+        confirmPassword: null
       },
       rules: {
         oldPassword: [
@@ -98,9 +99,13 @@ export default {
         if (valid) {
           this.loading = true
           const api = this.isReset ? resetPassword : updatePassword
+          const { oldPassword, newPassword } = this.passwordForm
           const params = this.isReset 
-            ? { newPassword: this.passwordForm.newPassword }
-            : this.passwordForm
+            ? { newPassword: md5(newPassword) }
+            : {
+                oldPassword: md5(oldPassword),
+                newPassword: md5(newPassword)
+              }
 
           api(params)
             .then(() => {
@@ -117,18 +122,11 @@ export default {
       this.$emit('update:visible', false)
       this.$refs.passwordForm.resetFields()
       this.passwordForm = {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        oldPassword: null,
+        newPassword: null,
+        confirmPassword: null
       }
     }
   }
 }
 </script>
-
-<style lang="less" scoped>
-.el-input {
-  width: 300px;
-}
-
-</style> 

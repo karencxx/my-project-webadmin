@@ -68,7 +68,7 @@
         </el-table-column>
         <el-table-column label="跳转模块" align="center">
           <template slot-scope="scope">
-            {{scope.row.jumpModule | jumpModuleFilter}}
+            {{scope.row.jumpModule | articleFilter}}
           </template>
         </el-table-column>
         <el-table-column prop="creator" label="创建人" align="center"></el-table-column>
@@ -111,7 +111,10 @@
 
 <script>
 import { getBannerList, updateBannerStatus } from '@/api/banner'
-
+const positionOptions = [
+  { label: '首页', value: 0 },
+  { label: '法物流通', value: 1 }
+]
 export default {
   name: 'BannerList',
   data() {
@@ -122,10 +125,7 @@ export default {
         position: '',
         status: ''
       },
-      positionOptions: [
-        { label: '首页', value: 0 },
-        { label: '法物流通', value: 1 }
-      ],
+      positionOptions,
       statusOptions: [
         { label: '上架', value: true },
         { label: '下架', value: false }
@@ -140,18 +140,7 @@ export default {
   },
   filters: {
     positionFilter(value) {
-      const map = {
-        0: '首页',
-        1: '法物流通'
-      }
-      return map[value]
-    },
-    jumpModuleFilter(value) {
-      const map = {
-        0: '了解寺庙',
-        1: '禅修活动'
-      }
-      return map[value]
+      return positionOptions.find(item => item.value === value)?.label || ''
     }
   },
   methods: {

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取员工列表
 export function getEmployeeList(params) {
   return request({
-    url: '/admin/employee/list',
+    url: '/employee/list',
     method: 'post',
     data: params
   })
@@ -12,7 +12,7 @@ export function getEmployeeList(params) {
 // 添加员工
 export function addEmployee(data) {
   return request({
-    url: '/admin/employee/add',
+    url: '/employee/add',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function addEmployee(data) {
 // 更新员工信息
 export function updateEmployee(data) {
   return request({
-    url: '/admin/employee/update',
+    url: '/employee/update',
     method: 'put',
     data
   })
@@ -30,7 +30,7 @@ export function updateEmployee(data) {
 // 更新员工状态
 export function updateEmployeeStatus(data) {
   return request({
-    url: '/admin/employee/status',
+    url: '/employee/status',
     method: 'put',
     data
   })

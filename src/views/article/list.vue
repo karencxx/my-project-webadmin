@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- 搜索表单 -->
     <el-card class="filter-container" shadow="never">
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="100px">
@@ -47,7 +46,7 @@
         </el-form>
       </div>
     </el-card>
-    <!-- table -->
+
     <div class="table-container">
       <el-table
         ref="articleTable"
@@ -56,7 +55,7 @@
         v-loading="listLoading"
         size="small"
         border>
-        <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
+        <el-table-column prop="id" width="50" label="序号" align="center"></el-table-column>
         <el-table-column label="主图" width="120" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.imageUrl" class="table-image">
@@ -68,15 +67,15 @@
             {{scope.row.module | moduleFilter}}
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
-        <el-table-column prop="creator" label="创建人" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" align="center" />
+        <el-table-column prop="creator" label="创建人" align="center" />
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             <el-tag type="success" v-if="scope.row.status">上架</el-tag>
             <el-tag type="danger" v-else>下架</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -108,7 +107,7 @@
 </template>
 
 <script>
-import { getArticleList, updateArticleStatus } from '@/api/article'
+import { getArticleList, updateArticleStatus, moduleOptions } from '@/api/article'
 
 export default {
   name: 'ArticleList',
@@ -117,17 +116,14 @@ export default {
       listQuery: {
         page: 1,
         size: 10,
-        module: undefined,
-        status: undefined,
-        title: undefined
+        module: null,
+        status: null,
+        title: ''
       },
-      moduleOptions: [
-        { label: '了解寺庙', value: 0 },
-        { label: '禅修活动', value: 1 }
-      ],
+      moduleOptions,
       statusOptions: [
-        { label: '上架', value: true },
-        { label: '下架', value: false }
+        { label: '上架', value: 1 },
+        { label: '下架', value: 0 }
       ],
       list: [],
       total: 0,
@@ -139,11 +135,7 @@ export default {
   },
   filters: {
     moduleFilter(value) {
-      const map = {
-        0: '了解寺庙',
-        1: '禅修活动'
-      }
-      return map[value]
+      return moduleOptions.find(item => item.value === value)?.label || ''
     }
   },
   methods: {
@@ -156,6 +148,7 @@ export default {
       this.getList()
     },
     handleEdit(row) {
+      console.log(row)
       this.$store.dispatch('data/setTransferData', row)
       this.$router.push({
         path: `/article/edit`,
@@ -164,8 +157,6 @@ export default {
     },
     handleStatusChange(row) {
       this.$confirm(`确认要${row.status ? '下架' : '上架'}该文章吗?`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         updateArticleStatus({

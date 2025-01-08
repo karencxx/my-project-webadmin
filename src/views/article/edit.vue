@@ -22,10 +22,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="主图：" prop="imageUrl">
-          <singleUpload v-model="articleForm.imageUrl" size="690*480" />
+          <singleUpload v-model="articleForm.imageUrl" size="690*940" @uploadSuccess="handleUploadSuccess" />
         </el-form-item>
         <el-form-item label="文章内容：" prop="content">
-            <Editor />
+          <Editor v-model="articleForm.content" />
         </el-form-item>
         <el-form-item label=" " class="form-btn-footer">
           <el-button size="medium" type="primary" @click="onSubmit()" style="width: 200px;">提交</el-button>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { getArticleDetail, updateArticle } from '@/api/article'
+import { getArticleDetail, updateArticle, moduleOptions } from '@/api/article'
 import Editor from '@/components/Editor'
 import singleUpload from '@/components/Upload/singleUpload.vue'
 export default {
@@ -56,10 +56,7 @@ export default {
         imageUrl: '',
         content: ''
       },
-      moduleOptions: [
-        { label: '了解寺庙', value: 0 },
-        { label: '禅修活动', value: 1 }
-      ],
+      moduleOptions,
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
@@ -79,7 +76,10 @@ export default {
   created() {
     const id = this.$route.query.id
     if (id) {
-      this.getArticleDetail(id)
+      // this.getArticleDetail(id)
+      this.articleForm = this.$store.getters['transferData']
+      console.log(this.articleForm)
+      this.articleForm.imageUrl = 'http://dummyimage.com/690x940'
     }
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
       })
     },
     handleUploadSuccess(response) {
-      this.articleForm.imageUrl = response.data.url
+      this.articleForm.imageUrl = response.url
     },
     onSubmit(formName = 'articleForm') {
       this.$refs[formName].validate((valid) => {

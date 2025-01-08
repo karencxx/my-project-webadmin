@@ -5,6 +5,7 @@ import '@/styles/index.less'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './utils/filter'
 
 
 Vue.use(ElementUI)

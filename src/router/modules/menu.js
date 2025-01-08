@@ -41,10 +41,10 @@ export default [
   },
   // 随喜结缘
   {
-    path: '/recommond',
-    name: 'Recommond',
+    path: '/recommend',
+    name: 'Recommend',
     meta: { title: '随喜结缘', icon: 'el-icon-present'},
-    component: () => import('@/views/recommond/list')
+    component: () => import('@/views/recommend/list')
   },
   // 文章管理
   {

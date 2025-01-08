@@ -5,9 +5,11 @@ import { getToken } from '@/utils/auth'
 import router from '@/router'
 import CryptoJS from 'crypto-js'
 
+const API_PREFIX = process.env.VUE_APP_BASE_API
+
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: `${process.env.VUE_APP_BASE_URL}${API_PREFIX}`,
   timeout: 15000
 })
 
@@ -17,8 +19,12 @@ const enableEncrypt = process.env.VUE_APP_ENABLE_ENCRYPT === 'true'
 // request拦截器
 service.interceptors.request.use(
   config => {
+    // 添加API前缀
+    // if (!config.url.startsWith('http')) {
+    //   config.url = API_PREFIX + config.url
+    // }
     // 不需要token的白名单
-    const whiteList = ['/admin/login', '/admin/logout']
+    const whiteList = [`${API_PREFIX}/login`, `${API_PREFIX}/logout`]
     
     // 如果不在白名单中，则添加token
     if (!whiteList.includes(config.url)) {
@@ -82,7 +88,7 @@ service.interceptors.response.use(
   },
   error => {
     Message({
-      message: '出错啦',
+      message: error.message,
       type: 'error',
       duration: 5 * 1000
     })

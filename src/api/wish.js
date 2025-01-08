@@ -12,7 +12,7 @@ export const types = [
 // 获取许愿祈福列表
 export function getWishList(params) {
   return request({
-    url: '/admin/wish/list',
+    url: '/wish/list',
     method: 'post',
     data: params
   })
@@ -21,7 +21,7 @@ export function getWishList(params) {
 // 添加许愿祈福
 export function addWish(data) {
   return request({
-    url: '/admin/wish/add',
+    url: '/wish/add',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export function addWish(data) {
 // 更新许愿祈福
 export function updateWish(data) {
   return request({
-    url: '/admin/wish/update',
+    url: '/wish/update',
     method: 'put',
     data
   })
@@ -39,7 +39,7 @@ export function updateWish(data) {
 // 更新许愿祈福状态
 export function updateWishStatus(data) {
   return request({
-    url: '/admin/wish/status',
+    url: '/wish/status',
     method: 'put',
     data
   })
@@ -48,7 +48,7 @@ export function updateWishStatus(data) {
 // 获取祈福订单列表
 export function getWishOrders(data) {
   return request({
-    url: '/admin/wish/orders',
+    url: '/wish/orders',
     method: 'post',
     data
   })
@@ -57,7 +57,7 @@ export function getWishOrders(data) {
 // 获取祈福订单详情
 export function getWishOrderDetail(data) {
   return request({
-    url: '/admin/wish/order/detail',
+    url: '/wish/order/detail',
     method: 'post',
     data
   })
@@ -66,7 +66,7 @@ export function getWishOrderDetail(data) {
 // 上传祈福视频
 export function uploadWishVideo(data) {
   return request({
-    url: '/admin/wish/upload/video',
+    url: '/wish/upload/video',
     method: 'post',
     data
   })

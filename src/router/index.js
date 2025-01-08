@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from '@/layout'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, removeUserInfo } from '@/utils/auth'
 import menuRoutes from './modules/menu'
 
 
@@ -31,6 +31,11 @@ export const constantRoutes = [
       },
       ...menuRoutes
     ]
+  },
+  {
+    path: '*',
+    component: () => import('@/views/error/index'),
+    hidden: true
   }
 ]
 
@@ -39,7 +44,7 @@ const router = new Router({
   routes: constantRoutes
 })
 
-const whiteList = ['/login', '/404']
+const whiteList = ['/login', '/404', '/']
 
 router.beforeEach(async(to, from, next) => {
   const hasToken = getToken()
@@ -47,7 +52,7 @@ router.beforeEach(async(to, from, next) => {
   if (hasToken) {
     if (to.path === '/login') {
       // 已登录且要跳转的是登录页
-      next({ path: '/dashboard' })
+      next({path: '/dashboard'})
     } else {
       try {
         // 已登录访问其他页面
@@ -55,7 +60,7 @@ router.beforeEach(async(to, from, next) => {
       } catch (error) {
         // 出错时清除令牌并重新登录
         removeToken()
-        localStorage.removeItem('userId')
+        removeUserInfo()
         next(`/login?redirect=${to.path}`)
       }
     }

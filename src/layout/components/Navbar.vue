@@ -4,7 +4,7 @@
       <hamburger :is-active="sidebarOpened" :toggle-click="toggleSideBar" />
       <breadcrumb />
       <div class="right-menu">
-        <i class="el-icon-s-custom" @click="drawer = true"></i>
+        <i class="el-icon-s-custom" @click="handleUserInfo"></i>
         <i class="el-icon-switch-button" @click="handleLogout"></i>
       </div>
     </el-menu>
@@ -16,24 +16,21 @@
       :size="500"
       :show-close="false"
       :visible.sync="drawer"
-      :with-header="false"
-    >
+      :with-header="false">
       <div class="drawer-content">
         <el-descriptions title="个人信息" :column="1" border size="medium">
-          <el-descriptions-item label="姓名">{{
-            userInfo.name
-          }}</el-descriptions-item>
-          <el-descriptions-item label="角色"
-            ><el-tag size="small">{{
-              userInfo.role
-            }}</el-tag></el-descriptions-item
-          >
-          <el-descriptions-item label="组织">{{
-            userInfo.team
-          }}</el-descriptions-item>
-          <el-descriptions-item label="手机号">{{
-            userInfo.phone
-          }}</el-descriptions-item>
+          <el-descriptions-item label="姓名">
+            {{userInfo.name }}
+          </el-descriptions-item>
+          <el-descriptions-item label="角色">
+            <el-tag size="small">{{ userInfo.role}}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="组织">
+            {{ userInfo.team }}
+          </el-descriptions-item>
+          <el-descriptions-item label="手机号">
+            {{userInfo.phone}}
+          </el-descriptions-item>
           <el-descriptions-item label="操作">
             <el-button @click="handleChangePassword" type="text" size="small">修改密码</el-button>
             <el-button @click="handleResetPassword" type="text" size="small">重置密码</el-button>
@@ -50,7 +47,7 @@
 </template>
 
 <script>
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/components/Breadcrumb"
 import Password from '@/components/Password'
 import Hamburger from '@/components/Hamburger'
 export default {
@@ -83,6 +80,12 @@ export default {
   methods: {
     toggleSideBar() {
       this.$store.dispatch('sidebar/toggleSideBar')
+    },
+    handleUserInfo() {
+      this.$store.dispatch('user/getInfo').then(res => {
+        this.userInfo = res
+        this.drawer = true
+      })
     },
     async handleLogout() {
       this.$confirm("确定要退出登录吗？", "提示", {

@@ -6,8 +6,8 @@
       :show-file-list="false"
       :on-success="handleUploadSuccess"
       :before-upload="beforeUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="image-uploader-image" />
+      :limit="1">
+      <img :src="imageUrl" v-if="imageUrl" class="image-uploader-image" />
       <i v-else class="el-icon-plus image-uploader-icon"></i>
       <div class="image-tip" slot="tip">建议尺寸：{{ size }}，大小不超过2M</div>
     </el-upload>
@@ -29,12 +29,12 @@ export default {
       return this.value;
     },
     uploadAction() {
-      return process.env.VUE_APP_BASE_API + "/file/upload";
+      return process.env.VUE_APP_BASE_URL + process.env.VUE_APP_BASE_API + "/file/upload";
     },
   },
   methods: {
-    handleUploadSuccess(res, file) {
-      this.$emit("uploadSuccess", res.data);
+    handleUploadSuccess(data, file) {
+      this.$emit("uploadSuccess", data);
     },
     beforeUpload(file) {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";
@@ -67,6 +67,7 @@ export default {
     width: 80px;
     height: 80px;
     display: block;
+    border: 1px solid #d9d9d9;
   }
   .image-tip {
     font-size: 12px;

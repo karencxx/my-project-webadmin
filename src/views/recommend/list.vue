@@ -7,49 +7,54 @@
           size="small"
           type="success"
           @click="drawer = true"
-          icon="el-icon-plus"
-          >新增</el-button
-        >
+          icon="el-icon-plus">
+          新增
+          </el-button>
       </div>
       <el-table
         :data="list"
         style="width: 100%"
         v-loading="listLoading"
-        size="small"
-      >
+        size="small">
         <el-table-column
-          type="index"
           label="序号"
+          prop="id"
           width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column prop="name" label="模块" align="center" />
-        <el-table-column prop="linkObject" label="链接对象" align="center">
+          align="center"/>
+        <el-table-column prop="type" label="模块" align="center">
           <template slot-scope="scope">
-            {{ scope.row.linkObject }}
+            {{ scope.row.type | moduleType }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="link" label="链接" align="center">
+          <template slot-scope="scope">
+            {{ scope.row.link | linkType }}
           </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" align="center" />
-        <el-table-column prop="status" label="状态" align="center" width="100">
+        <el-table-column prop="createTime" label="创建时间" align="center">
           <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.status === 1">上架</el-tag>
-            <el-tag type="danger" v-else>下架</el-tag>
+            {{ scope.row.createTime }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="200">
+        <el-table-column prop="status" label="状态" align="center">
+          <template slot-scope="scope">
+            <el-tag type="success" size="small" v-if="scope.row.status === 1">上架</el-tag>
+            <el-tag type="danger" size="small" v-else>下架</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center" width="300">
           <template slot-scope="scope">
             <el-button
               size="mini"
               type="default"
-              @click="handleEdit(scope.row)"
-            >
+              @click="handleEdit(scope.row)">
               修改
             </el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="handleStatus(scope.row)"
-            >
+              @click="handleStatus(scope.row)">
               下架
             </el-button>
           </template>
@@ -67,24 +72,22 @@
         :total="total"
       ></el-pagination>
     </div>
-    <!-- 新增/编辑商品 -->
+    <!-- 新增/编辑 -->
     <el-drawer
       title="新增/编辑"
       :visible.sync="drawer"
       with-header
-      size="40%"
-      :before-close="handleClose"
-    >
+      size="30%"
+      :before-close="handleClose">
       <el-form
         :model="detailData"
         label-width="80px"
         :rules="detailFormRules"
         size="small"
         ref="detailForm"
-        @submit.native.prevent
-      >
-        <el-form-item label="模块" prop="name">
-          <el-select v-model="detailData.name" class="input-width">
+        @submit.native.prevent>
+        <el-form-item label="模块" prop="type">
+          <el-select v-model="detailData.type" class="input-width">
             <el-option
               v-for="item in moduleList"
               :key="item.value"
@@ -93,8 +96,8 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="链接" prop="linkObject">
-          <el-select v-model="detailData.linkObject" class="input-width">
+        <el-form-item label="链接" prop="link">
+          <el-select v-model="detailData.link" class="input-width">
             <el-option
               v-for="item in linkTypes"
               :key="item.value"
@@ -104,12 +107,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="排序" prop="sort">
-          <el-input v-model.number="detailData.sort" class="input-width" />
+          <el-input v-model.number="detailData.sort" type="number" min="1" class="input-width" />
         </el-form-item>
         <el-form-item label=" ">
-          <el-button type="primary" @click="handleSubmit" style="width: 100px"
-            >保 存</el-button
-          >
+          <el-button type="primary" @click="handleSubmit" style="width: 100px">保 存</el-button>
           <el-button @click="handleClose" style="width: 100px">取消</el-button>
         </el-form-item>
       </el-form>
@@ -118,14 +119,11 @@
 </template>
 
 <script>
-import { getRecommondList } from "@/api/recommond";
+import { getRecommendList, moduleList, addRecommend, updateRecommend, updateRecommendStatus } from "@/api/recommend";
 import { types } from "@/api/wish";
-const moduleList = [
-  { label: "许愿祈福", value: 1 },
-  { label: "寺庙文创", value: 2 },
-];
+
 export default {
-  name: "RecommondList",
+  name: "Recommend",
   data() {
     return {
       moduleList,
@@ -139,17 +137,17 @@ export default {
       drawer: false,
       detailData: {
         id: null,
-        name: "",
-        linkObject: "",
-        sort: "",
+        type: null,
+        link: null,
+        sort: null,
       },
       detailFormRules: {
-        name: [{ required: true, message: "请输入模块", trigger: "blur" }],
-        linkObject: [
-          { required: true, message: "请输入链接对象", trigger: "blur" },
+        type: [{ required: true, message: "请选择模块", trigger: "blur" }],
+        link: [
+          { required: true, message: "请选择链接", trigger: "blur" },
         ],
         sort: [{ required: true, message: "请输入排序", trigger: "blur" }],
-      },
+      }
     };
   },
   created() {
@@ -157,8 +155,16 @@ export default {
   },
   computed: {
     linkTypes() {
-      return this.detailData.name === 1 ? types : []; // 寺庙文创暂时没有
+      return this.detailData.type === 1 ? types : []; // 寺庙文创暂时没有
     },
+  },
+  filters: {
+    linkType(value) {
+      return types.find(item => item.value === value)?.label;
+    },
+    moduleType(value) {
+      return moduleList.find(item => item.value === value)?.label;
+    }
   },
   methods: {
     handleCurrentChange(val) {
@@ -167,7 +173,7 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      getRecommondList(this.listQuery)
+      getRecommendList(this.listQuery)
         .then((response) => {
           this.listLoading = false;
           this.list = response.data.list;
@@ -185,13 +191,26 @@ export default {
       this.$confirm("确定要下架吗？", "提示", {
         type: "warning",
       }).then(() => {
-        console.log(row);
+        updateRecommendStatus(row).then(() => {
+          this.$message.success("操作成功");
+          this.getList();
+        });
       });
     },
     handleSubmit() {
       this.$refs.detailForm.validate((valid) => {
         if (valid) {
-          console.log(this.detailData);
+          if (this.detailData.id) {
+            updateRecommend(this.detailData).then(() => {
+              this.$message.success("操作成功");
+              this.getList();
+            });
+          } else {
+            addRecommend(this.detailData).then(() => {
+              this.$message.success("操作成功");
+              this.getList();
+            });
+          }
           this.handleClose();
         }
       });
@@ -199,9 +218,9 @@ export default {
     handleClose() {
       this.detailData = {
         id: null,
-        name: "",
-        linkObject: "",
-        sort: "",
+        type: null,
+        link: null,
+        sort: null,
       };
       this.$refs.detailForm.resetFields();
       this.drawer = false;

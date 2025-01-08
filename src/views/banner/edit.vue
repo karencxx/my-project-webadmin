@@ -19,7 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="上传图片：" prop="imageUrl">
-          <singleUpload v-model="bannerForm.imageUrl" size="690*766" />
+          <singleUpload v-model="bannerForm.imageUrl" size="690*766" @uploadSuccess="handleUploadSuccess"/>
         </el-form-item>
         <el-form-item label="是否跳转：">
           <el-switch v-model="bannerForm.isJump"></el-switch>
@@ -35,7 +35,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="跳转链接：" prop="jumpUrl" v-if="bannerForm.isJump">
-          <el-input v-model="bannerForm.jumpUrl" class="input-width" placeholder="请输入跳转链接"></el-input>
+          <el-button type="default" @click="article.show = true">选择文章</el-button>
+          <el-row class="mt-10" v-if="article.selectData.id">
+            <el-col :span="3"> 已选择</el-col>
+            <el-col> 标题： {{ article.selectData.title }}</el-col>
+            <el-col> 模块： {{ article.selectData.module | articleFilter }}</el-col>
+            <el-col> 链接： {{ article.selectData.jumpUrl }}</el-col>
+          </el-row>
         </el-form-item>
         <el-form-item label=" " class="form-btn-footer">
           <el-button type="primary" size="medium" @click="onSubmit('bannerForm')" style="width: 100px;">提交</el-button>
@@ -43,28 +49,39 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <template v-if="article.show">
+      <articleDialog 
+        :show="article.show" 
+        :selectData="article.selectData"
+        @update:show="handleClose" 
+        @select="handleSelectArticle" />
+    </template>
   </div>
 </template>
 
 <script>
 import { updateBanner } from '@/api/banner'
+import { moduleOptions, genArticleLink } from '@/api/article'
 import singleUpload from '@/components/Upload/singleUpload.vue'
+import articleDialog from '@/views/article/dialog.vue'
+
 export default {
   name: 'EditBanner',
   components: {
-    singleUpload
+    singleUpload,
+    articleDialog
   },
   data() {
-    const validateJumpModule = (rule, value, callback) => {
+    const validateJumpModule = (value, callback) => {
       if (this.bannerForm.isJump && !value) {
         callback(new Error('请选择跳转模块'))
       } else {
         callback()
       }
     }
-    const validateJumpUrl = (rule, value, callback) => {
+    const validateJumpUrl = (value, callback) => {
       if (this.bannerForm.isJump && !value) {
-        callback(new Error('请输入跳转链接'))
+        callback(new Error('请选择文章'))
       } else {
         callback()
       }
@@ -75,18 +92,15 @@ export default {
         id: null,
         position: null,
         imageUrl: '',
-        isJump: true,
+        isJump: false,
         jumpModule: null,
         jumpUrl: ''
       },
       positionOptions: [
-        { label: '首页', value: 1 },
-        { label: '法物流通', value: 2 }
+        { label: '首页', value: 0 },
+        { label: '法物流通', value: 1 }
       ],
-      jumpModuleOptions: [
-        { label: '了解寺庙', value: 1 },
-        { label: '禅修活动', value: 2 }
-      ],
+      jumpModuleOptions: moduleOptions,
       rules: {
         position: [
           { required: true, message: '请选择位置', trigger: 'change' }
@@ -100,21 +114,33 @@ export default {
         jumpUrl: [
           { validator: validateJumpUrl, trigger: 'blur' }
         ]
+      },
+      article: {
+        selectData: {},
+        show: false
       }
     }
   },
   created() {
-    this.loading = true
     const id = this.$route.query.id
     if (id) {
-      this.bannerForm = this.$store.getters['data/transferData']
+      this.bannerForm = this.$store.getters['transferData']
+      console.log(this.bannerForm)
     }
-    this.loading = false
+  },
+  watch: {
+    'bannerForm.isJump': function(newVal, oldVal) {
+      if (newVal) {
+        this.bannerForm.jumpModule = null
+        this.bannerForm.jumpUrl = ''
+        this.article.show = false
+      }
+    }
   },
   methods: {
     handleUploadSuccess(response) {
-      if (response.code ) { // === 200
-        this.bannerForm.imageUrl = response.data.url
+      if (response) { // code === 200
+        this.bannerForm.imageUrl = response.url
         this.$message.success('上传成功')
       } else {
         this.$message.error('上传失败')
@@ -139,6 +165,16 @@ export default {
     },
     onCancel() {
       this.$router.push('/banner/list')
+    },
+    handleSelectArticle(data) {
+      data.jumpUrl = genArticleLink(data)
+      this.bannerForm.jumpUrl = data.jumpUrl
+      this.article.selectData = data
+      this.handleClose(false)
+
+    },
+    handleClose(data) {
+      this.article.show = data
     }
   }
 }

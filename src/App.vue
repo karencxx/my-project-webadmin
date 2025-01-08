@@ -105,6 +105,9 @@ html, body {
 .text-center{
   text-align: center;
 }
+.text-right{
+  text-align: right;
+}
 .flex-center{
   display: flex;
   justify-content: center;

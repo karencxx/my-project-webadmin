@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getVolunteerList(params) {
   return request({
-    url: '/admin/volunteer/list',
+    url: '/volunteer/list',
     method: 'post',
     data: params
   })
@@ -11,7 +11,7 @@ export function getVolunteerList(params) {
 // 录用
 export function volunteerAdopt(data) {
   return request({
-    url: '/admin/volunteer/adopt',
+    url: '/volunteer/adopt',
     method: 'post',
     data
   })

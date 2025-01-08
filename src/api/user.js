@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取用户列表
 export function getUserList(params) {
   return request({
-    url: '/admin/user/list',
+    url: '/user/list',
     method: 'post',
     data: params
   })
@@ -13,7 +13,7 @@ export function getUserList(params) {
 // 修改密码
 export function updatePassword(data) {
   return request({
-    url: '/admin/employee/password/update',
+    url: '/password/update',
     method: 'post',
     data
   })
@@ -22,7 +22,7 @@ export function updatePassword(data) {
 // 重置密码
 export function resetPassword(data) {
   return request({
-    url: '/admin/employee/password/reset',
+    url: '/password/reset',
     method: 'post',
     data
   })
